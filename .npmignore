@@ -1,0 +1,18 @@
+# Source & dev files
+src/
+tests/
+examples/
+coverage/
+
+# Config files
+tsup.config.ts
+tsconfig.json
+vitest.config.ts
+biome.json
+.github/
+
+# Misc
+*.log
+*.tgz
+.DS_Store
+node_modules/

@@ -1,0 +1,96 @@
+{
+  "name": "intentmap",
+  "version": "0.1.0",
+  "description": "Map UI events and text to semantic user intents — locally, offline, with zero dependencies.",
+  "author": "Your Name <you@example.com>",
+  "license": "MIT",
+  "keywords": [
+    "intent",
+    "nlp",
+    "semantic",
+    "classification",
+    "ui",
+    "events",
+    "offline",
+    "universal",
+    "typescript",
+    "react"
+  ],
+  "homepage": "https://github.com/yourusername/intentmap#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/intentmap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/intentmap/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/adapters/react.d.ts",
+        "default": "./dist/adapters/react.js"
+      },
+      "require": {
+        "types": "./dist/adapters/react.d.cts",
+        "default": "./dist/adapters/react.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "biome check ./src ./tests",
+    "lint:fix": "biome check --write ./src ./tests",
+    "format": "biome format --write ./src ./tests",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build",
+    "release": "changeset publish",
+    "version": "changeset version",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@changesets/cli": "^2.27.7",
+    "@types/react": "^18.3.3",
+    "@vitest/coverage-v8": "^2.0.5",
+    "react": "^18.3.1",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
