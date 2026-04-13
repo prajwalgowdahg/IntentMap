@@ -38,14 +38,18 @@ const config = {
 
 describe('createIntentMap config validation', () => {
   it('throws TypeError when given null', () => {
-    expect(() => createIntentMap(null as unknown as Record<string, unknown>)).toThrow(TypeError)
+    expect(() => createIntentMap(null as unknown as Record<string, unknown>)).toThrow(
+      TypeError
+    )
     expect(() => createIntentMap(null as unknown as Record<string, unknown>)).toThrow(
       /\[intentmap\] createIntentMap\(\) expected a config object/
     )
   })
 
   it('throws TypeError when given undefined', () => {
-    expect(() => createIntentMap(undefined as unknown as Record<string, unknown>)).toThrow(TypeError)
+    expect(() =>
+      createIntentMap(undefined as unknown as Record<string, unknown>)
+    ).toThrow(TypeError)
   })
 
   it('throws TypeError when config.intents is null', () => {
@@ -58,14 +62,15 @@ describe('createIntentMap config validation', () => {
   })
 
   it('throws TypeError when patterns is an empty array', () => {
-    expect(() =>
-      createIntentMap({ intents: { x: { patterns: [] } } })
-    ).toThrow(TypeError)
+    expect(() => createIntentMap({ intents: { x: { patterns: [] } } })).toThrow(TypeError)
   })
 
   it('throws TypeError when patterns contains non-strings', () => {
     expect(() =>
-      createIntentMap({ intents: { x: { patterns: [123] } } } as unknown as Record<string, unknown>)
+      createIntentMap({ intents: { x: { patterns: [123] } } } as unknown as Record<
+        string,
+        unknown
+      >)
     ).toThrow(TypeError)
   })
 
@@ -121,7 +126,7 @@ describe('match() max length', () => {
 
   it('works normally for string at exactly 10000 chars', () => {
     const im = createIntentMap(config)
-    const boundaryInput = 'buy now ' + 'x'.repeat(10_000 - 8)
+    const boundaryInput = `buy now ${'x'.repeat(10_000 - 8)}`
     const result = im.match(boundaryInput)
     expect(result).toBeDefined()
     expect(result.input).toBe(boundaryInput)
@@ -150,32 +155,26 @@ describe('on() validation', () => {
 describe('addIntent() validation', () => {
   it('throws TypeError when name is a number', () => {
     const im = createIntentMap(config)
-    expect(() =>
-      im.addIntent(123 as unknown as string, { patterns: ['hello'] })
-    ).toThrow(TypeError)
+    expect(() => im.addIntent(123 as unknown as string, { patterns: ['hello'] })).toThrow(
+      TypeError
+    )
   })
 
   it('throws TypeError when name is empty string', () => {
     const im = createIntentMap(config)
-    expect(() =>
-      im.addIntent('', { patterns: ['hello'] })
-    ).toThrow(TypeError)
+    expect(() => im.addIntent('', { patterns: ['hello'] })).toThrow(TypeError)
   })
 
   it('throws TypeError when patterns is empty', () => {
     const im = createIntentMap(config)
-    expect(() =>
-      im.addIntent('name', { patterns: [] })
-    ).toThrow(TypeError)
+    expect(() => im.addIntent('name', { patterns: [] })).toThrow(TypeError)
   })
 })
 
 describe('train() validation', () => {
   it('throws TypeError when intent is a number', () => {
     const im = createIntentMap(config)
-    expect(() =>
-      im.train(123 as unknown as string, ['x'])
-    ).toThrow(TypeError)
+    expect(() => im.train(123 as unknown as string, ['x'])).toThrow(TypeError)
   })
 
   it('throws Error when intent does not exist', () => {
@@ -191,21 +190,17 @@ describe('train() validation', () => {
 
   it('throws TypeError when examples is not an array', () => {
     const im = createIntentMap(config)
-    expect(() =>
-      im.train('checkout', 'notarray' as unknown as string[])
-    ).toThrow(TypeError)
+    expect(() => im.train('checkout', 'notarray' as unknown as string[])).toThrow(
+      TypeError
+    )
   })
 })
 
 describe('bind() validation', () => {
   it('throws TypeError when element is null', () => {
     const im = createIntentMap(config)
-    expect(() =>
-      im.bind(null as unknown as HTMLElement, {})
-    ).toThrow(TypeError)
-    expect(() =>
-      im.bind(null as unknown as HTMLElement, {})
-    ).toThrow(/HTMLElement/)
+    expect(() => im.bind(null as unknown as HTMLElement, {})).toThrow(TypeError)
+    expect(() => im.bind(null as unknown as HTMLElement, {})).toThrow(/HTMLElement/)
   })
 })
 
@@ -226,7 +221,9 @@ describe('destroy-state guards', () => {
   it('emit() throws Error after destroy()', () => {
     const im = createIntentMap(config)
     im.destroy()
-    expect(() => im.emit({ matched: false, intent: null, confidence: 0, scores: {}, input: '' })).toThrow(/called after destroy/)
+    expect(() =>
+      im.emit({ matched: false, intent: null, confidence: 0, scores: {}, input: '' })
+    ).toThrow(/called after destroy/)
   })
 
   it('bind() throws Error after destroy()', () => {
@@ -238,7 +235,9 @@ describe('destroy-state guards', () => {
   it('addIntent() throws Error after destroy()', () => {
     const im = createIntentMap(config)
     im.destroy()
-    expect(() => im.addIntent('new', { patterns: ['hello'] })).toThrow(/called after destroy/)
+    expect(() => im.addIntent('new', { patterns: ['hello'] })).toThrow(
+      /called after destroy/
+    )
   })
 
   it('removeIntent() throws Error after destroy()', () => {
