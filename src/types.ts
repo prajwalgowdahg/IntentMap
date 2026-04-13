@@ -4,11 +4,26 @@ export interface IntentDefinition {
   meta?: Record<string, unknown>
 }
 
+export interface IntentWeights {
+  cosine?: number
+  keyword?: number
+}
+
 export interface IntentConfig {
   intents: Record<string, IntentDefinition>
   defaultThreshold?: number
   caseSensitive?: boolean
   debug?: boolean
+  weights?: IntentWeights
+  stemmer?: (word: string) => string
+}
+
+export interface IntentScoreBreakdown {
+  cosine: number
+  keyword: number
+  blended: number
+  threshold: number
+  aboveThreshold: boolean
 }
 
 export interface MatchResult {

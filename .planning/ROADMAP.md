@@ -91,11 +91,11 @@ Plans:
   2. Omitting `weights` in config produces identical results to the original 0.35/0.65 default (no behavior change)
   3. `MatchResult` includes a `debug` field with per-intent scoring breakdown when `debug: true` is set in config
   4. `IntentConfig` accepts a `stemmer` option that replaces the default stemmer with a custom function
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md — Add weights and stemmer to IntentConfig types, weight validation/normalization in createIntentMap(), config passthrough in IntentMap (SCR-01, SCR-02, SCR-04)
+- [ ] 05-02-PLAN.md — Wire weights into scoring, add debug breakdown to MatchResult, thread custom stemmer through VectorStore (SCR-02, SCR-03, SCR-04)
 
 ### Phase 6: Test Coverage
 **Goal**: The test suite comprehensively covers React hooks, DOM binding, stemmer edge cases, boundary conditions, and scoring calibration
@@ -127,5 +127,5 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 | 2. Package & Validation | 2/2 | Complete | 2026-04-13 |
 | 3. Engine & DOM Fixes | 1/2 | Complete    | 2026-04-13 |
 | 4. React Adapter | 1/1 | Complete    | 2026-04-13 |
-| 5. Scoring Configuration | 0/? | Not started | - |
+| 5. Scoring Configuration | 0/2 | Not started | - |
 | 6. Test Coverage | 0/? | Not started | - |
