@@ -62,12 +62,11 @@ Plans:
   3. `match()` with no registered intents returns a clean no-match result instead of crashing on an undefined sort result
   4. `removeIntent()` fully cleans up associated handlers, DOM bindings, and vector store entries
   5. Text extraction from bound elements uses `textContent` (not `innerText`) and tokenization is computed once per match call
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [ ] 03-01-PLAN.md — Fix double tokenization in matcher, textContent priority in extractText, verify no-intent edge case (BUG-02, BUG-03, BUG-04)
+- [ ] 03-02-PLAN.md — Fix duplicate bind, add debounce support, verify removeIntent cleanup (BUG-01, BUG-05, DOM-01, DOM-02, DOM-03)
 
 ### Phase 4: React Adapter
 **Goal**: React hooks handle lifecycle correctly with no stale closures, proper cleanup, and graceful destroyed-state handling
@@ -127,7 +126,7 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 |-------|----------------|--------|-----------|
 | 1. Build Pipeline | 1/1 | Complete | 2026-04-13 |
 | 2. Package & Validation | 0/2 | Not started | - |
-| 3. Engine & DOM Fixes | 0/? | Not started | - |
+| 3. Engine & DOM Fixes | 0/2 | Not started | - |
 | 4. React Adapter | 0/? | Not started | - |
 | 5. Scoring Configuration | 0/? | Not started | - |
 | 6. Test Coverage | 0/? | Not started | - |
