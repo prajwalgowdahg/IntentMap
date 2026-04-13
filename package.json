@@ -75,9 +75,13 @@
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@changesets/cli": "^2.27.7",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.7",
     "@vitest/coverage-v8": "^2.0.5",
+    "jsdom": "^29.0.2",
     "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"
