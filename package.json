@@ -2,7 +2,7 @@
   "name": "intentmap",
   "version": "0.1.0",
   "description": "Map UI events and text to semantic user intents — locally, offline, with zero dependencies.",
-  "author": "Your Name <you@example.com>",
+  "author": "prajwalhg <prajwalgowda477@gmail.com>",
   "license": "MIT",
   "keywords": [
     "intent",
@@ -16,13 +16,13 @@
     "typescript",
     "react"
   ],
-  "homepage": "https://github.com/yourusername/intentmap#readme",
+  "homepage": "https://github.com/prajwalgowdahg/intentmap#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/intentmap.git"
+    "url": "https://github.com/prajwalgowdahg/intentmap.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/intentmap/issues"
+    "url": "https://github.com/prajwalgowdahg/intentmap/issues"
   },
   "type": "module",
   "main": "./dist/index.cjs",
