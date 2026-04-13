@@ -323,3 +323,176 @@ describe('removeIntent() cleanup verification (BUG-05)', () => {
     expect(wildcardHandler).toHaveBeenCalled()
   })
 })
+
+describe('text extraction from bound elements', () => {
+  it('extracts text from element with value property (input element)', () => {
+    const im = createIntentMap(config)
+    const handler = vi.fn()
+    const { element, addEventListener } = createMockElement()
+
+    im.on('checkout', handler)
+    im.bind(element)
+
+    const inputListener = addEventListener.mock.calls.find(
+      (call) => call[0] === 'input'
+    )?.[1] as EventListener
+
+    // Event target has a value property (like an input element)
+    const event = { target: { value: 'buy now' } } as unknown as Event
+    inputListener(event)
+
+    expect(handler).toHaveBeenCalledOnce()
+    expect(handler.mock.calls[0][0].intent).toBe('checkout')
+  })
+
+  it('extracts text from element with dataset.intent', () => {
+    const im = createIntentMap(config)
+    const handler = vi.fn()
+    const { element, addEventListener } = createMockElement()
+
+    im.on('checkout', handler)
+    im.bind(element)
+
+    const inputListener = addEventListener.mock.calls.find(
+      (call) => call[0] === 'input'
+    )?.[1] as EventListener
+
+    // Event target has dataset.intent but no value
+    const event = {
+      target: { dataset: { intent: 'buy now' } },
+    } as unknown as Event
+    inputListener(event)
+
+    expect(handler).toHaveBeenCalledOnce()
+    expect(handler.mock.calls[0][0].intent).toBe('checkout')
+  })
+
+  it('extracts text from element with textContent fallback', () => {
+    const im = createIntentMap(config)
+    const handler = vi.fn()
+    const { element, addEventListener } = createMockElement()
+
+    im.on('checkout', handler)
+    im.bind(element)
+
+    const inputListener = addEventListener.mock.calls.find(
+      (call) => call[0] === 'input'
+    )?.[1] as EventListener
+
+    // Event target has only textContent (no value, no dataset.intent)
+    const event = {
+      target: { textContent: 'buy now' },
+    } as unknown as Event
+    inputListener(event)
+
+    expect(handler).toHaveBeenCalledOnce()
+    expect(handler.mock.calls[0][0].intent).toBe('checkout')
+  })
+
+  it('does not fire handler when extracted text is empty', () => {
+    const im = createIntentMap(config)
+    const handler = vi.fn()
+    const { element, addEventListener } = createMockElement()
+
+    im.on('checkout', handler)
+    im.bind(element)
+
+    const inputListener = addEventListener.mock.calls.find(
+      (call) => call[0] === 'input'
+    )?.[1] as EventListener
+
+    // Event target has empty value
+    const event = { target: { value: '' } } as unknown as Event
+    inputListener(event)
+
+    expect(handler).not.toHaveBeenCalled()
+  })
+})
+
+describe('bind() filter option', () => {
+  it('fires handler when filter returns true', () => {
+    const im = createIntentMap(config)
+    const handler = vi.fn()
+    const { element, addEventListener } = createMockElement()
+
+    im.on('checkout', handler)
+    im.bind(element, { filter: () => true })
+
+    const inputListener = addEventListener.mock.calls.find(
+      (call) => call[0] === 'input'
+    )?.[1] as EventListener
+
+    const event = { target: { value: 'buy now' } } as unknown as Event
+    inputListener(event)
+
+    expect(handler).toHaveBeenCalledOnce()
+  })
+
+  it('does not fire handler when filter returns false', () => {
+    const im = createIntentMap(config)
+    const handler = vi.fn()
+    const { element, addEventListener } = createMockElement()
+
+    im.on('checkout', handler)
+    im.bind(element, { filter: () => false })
+
+    const inputListener = addEventListener.mock.calls.find(
+      (call) => call[0] === 'input'
+    )?.[1] as EventListener
+
+    const event = { target: { value: 'buy now' } } as unknown as Event
+    inputListener(event)
+
+    expect(handler).not.toHaveBeenCalled()
+  })
+
+  it('passes the MatchResult to the filter function', () => {
+    const im = createIntentMap(config)
+    const handler = vi.fn()
+    const filterFn = vi.fn().mockReturnValue(true)
+    const { element, addEventListener } = createMockElement()
+
+    im.on('checkout', handler)
+    im.bind(element, { filter: filterFn })
+
+    const inputListener = addEventListener.mock.calls.find(
+      (call) => call[0] === 'input'
+    )?.[1] as EventListener
+
+    const event = { target: { value: 'buy now' } } as unknown as Event
+    inputListener(event)
+
+    // Filter should have been called with a MatchResult
+    expect(filterFn).toHaveBeenCalledOnce()
+    const matchResult = filterFn.mock.calls[0][0]
+    expect(matchResult).toHaveProperty('matched')
+    expect(matchResult).toHaveProperty('intent')
+    expect(matchResult).toHaveProperty('confidence')
+  })
+})
+
+describe('bind() custom event types', () => {
+  it('binds to a single custom event type', () => {
+    const im = createIntentMap(config)
+    const { element, addEventListener } = createMockElement()
+
+    im.bind(element, { on: 'keyup' })
+
+    // Should have been called with 'keyup', not 'input' or 'change'
+    expect(addEventListener).toHaveBeenCalledTimes(1)
+    expect(addEventListener).toHaveBeenCalledWith('keyup', expect.any(Function))
+  })
+
+  it('binds to multiple custom event types', () => {
+    const im = createIntentMap(config)
+    const { element, addEventListener } = createMockElement()
+
+    im.bind(element, { on: ['input', 'keyup'] })
+
+    // Should have been called for both event types
+    expect(addEventListener).toHaveBeenCalledTimes(2)
+    const eventTypes = addEventListener.mock.calls.map((call) => call[0])
+    expect(eventTypes).toContain('input')
+    expect(eventTypes).toContain('keyup')
+  })
+})
