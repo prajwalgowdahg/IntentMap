@@ -17,11 +17,11 @@
 
 ### Package Infrastructure
 
-- [ ] **PKG-01**: `.gitignore` added covering `node_modules/`, `dist/`, `.env`, coverage
-- [ ] **PKG-02**: `LICENSE` file created with MIT text
-- [ ] **PKG-03**: `package-lock.json` generated and committed
-- [ ] **PKG-04**: Changeset config moved from root `config.json` to `.changeset/config.json`
-- [ ] **PKG-05**: Placeholder `yourusername` and `Your Name` metadata replaced with real values
+- [x] **PKG-01**: `.gitignore` added covering `node_modules/`, `dist/`, `.env`, coverage
+- [x] **PKG-02**: `LICENSE` file created with MIT text
+- [x] **PKG-03**: `package-lock.json` generated and committed
+- [x] **PKG-04**: Changeset config moved from root `config.json` to `.changeset/config.json`
+- [x] **PKG-05**: Placeholder `yourusername` and `Your Name` metadata replaced with real values
 
 ### Input Validation
 
@@ -111,11 +111,11 @@ Deferred to future release. Tracked but not in current roadmap.
 | BLD-05 | Phase 1 | Complete |
 | BLD-06 | Phase 1 | Complete |
 | BLD-07 | Phase 1 | Complete |
-| PKG-01 | Phase 2 | Pending |
-| PKG-02 | Phase 2 | Pending |
-| PKG-03 | Phase 2 | Pending |
-| PKG-04 | Phase 2 | Pending |
-| PKG-05 | Phase 2 | Pending |
+| PKG-01 | Phase 2 | Complete |
+| PKG-02 | Phase 2 | Complete |
+| PKG-03 | Phase 2 | Complete |
+| PKG-04 | Phase 2 | Complete |
+| PKG-05 | Phase 2 | Complete |
 | VAL-01 | Phase 2 | Pending |
 | VAL-02 | Phase 2 | Pending |
 | VAL-03 | Phase 2 | Pending |
