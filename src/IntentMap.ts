@@ -239,5 +239,5 @@ function extractText(event: Event): string {
   if (target.dataset?.intent) {
     return target.dataset.intent
   }
-  return target.innerText ?? target.textContent ?? ''
+  return target.textContent ?? target.innerText ?? ''
 }

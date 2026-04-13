@@ -1,8 +1,18 @@
 import { buildNgrams, stem, tokenize } from './tokenizer.js'
 import type { TokenVector } from './types.js'
 
-export function buildVector(text: string, caseSensitive = false): TokenVector {
-  const tokens = tokenize(text, caseSensitive).map(stem)
+export function buildVector(text: string, caseSensitive?: boolean): TokenVector
+export function buildVector(
+  text: string,
+  caseSensitive: boolean,
+  stems: string[]
+): TokenVector
+export function buildVector(
+  text: string,
+  caseSensitive = false,
+  stems?: string[]
+): TokenVector {
+  const tokens = stems ?? tokenize(text, caseSensitive).map(stem)
   const ngrams = buildNgrams(tokens, 2)
   const vec: TokenVector = new Map()
 

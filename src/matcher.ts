@@ -40,8 +40,8 @@ export class Matcher {
   }
 
   match(input: string): MatchResult {
-    const inputVec = buildVector(input, this.caseSensitive)
     const inputStems = tokenize(input, this.caseSensitive).map(stem)
+    const inputVec = buildVector(input, this.caseSensitive, inputStems)
     const intents = this.store.getIntents()
     const scores: Record<string, number> = {}
 
