@@ -12,7 +12,7 @@ Transform intentMap from a functionally-complete but structurally-broken v0.1.0 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Build Pipeline** - Restructure files to src/ and fix all tooling commands
+- [x] **Phase 1: Build Pipeline** - Restructure files to src/ and fix all tooling commands
 - [ ] **Phase 2: Package & Validation** - Add package infrastructure and input validation on all public API methods
 - [ ] **Phase 3: Engine & DOM Fixes** - Fix known bugs in matcher, DOM binding, and add debounce support
 - [ ] **Phase 4: React Adapter** - Harden React hooks with stale closure fixes and proper cleanup
@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Restructure files into src/, tests/, examples/ and verify full build pipeline
+- [x] 01-01-PLAN.md — Restructure files into src/, tests/, examples/ and verify full build pipeline
 
 ### Phase 2: Package & Validation
 **Goal**: The package has proper npm infrastructure and all public API methods reject invalid input with clear error messages
@@ -126,7 +126,7 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Build Pipeline | 0/1 | Planned | - |
+| 1. Build Pipeline | 1/1 | Complete | 2026-04-13 |
 | 2. Package & Validation | 0/? | Not started | - |
 | 3. Engine & DOM Fixes | 0/? | Not started | - |
 | 4. React Adapter | 0/? | Not started | - |

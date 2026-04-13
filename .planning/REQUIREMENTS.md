@@ -7,13 +7,13 @@
 
 ### Build & Structure
 
-- [ ] **BLD-01**: Source files moved to `src/` directory with React adapter at `src/adapters/react.ts`
-- [ ] **BLD-02**: Test files moved to `tests/` directory with updated import paths
-- [ ] **BLD-03**: `npm run build` produces working ESM + CJS output in `dist/`
-- [ ] **BLD-04**: `npm run typecheck` passes with strict mode and all safety flags
-- [ ] **BLD-05**: `npm run lint` passes against `src/` and `tests/`
-- [ ] **BLD-06**: `npm run test` passes with all existing tests
-- [ ] **BLD-07**: `intentmap/react` subpath export resolves correctly from built output
+- [x] **BLD-01**: Source files moved to `src/` directory with React adapter at `src/adapters/react.ts`
+- [x] **BLD-02**: Test files moved to `tests/` directory with updated import paths
+- [x] **BLD-03**: `npm run build` produces working ESM + CJS output in `dist/`
+- [x] **BLD-04**: `npm run typecheck` passes with strict mode and all safety flags
+- [x] **BLD-05**: `npm run lint` passes against `src/` and `tests/`
+- [x] **BLD-06**: `npm run test` passes with all existing tests
+- [x] **BLD-07**: `intentmap/react` subpath export resolves correctly from built output
 
 ### Package Infrastructure
 
@@ -104,13 +104,13 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BLD-01 | Phase 1 | Pending |
-| BLD-02 | Phase 1 | Pending |
-| BLD-03 | Phase 1 | Pending |
-| BLD-04 | Phase 1 | Pending |
-| BLD-05 | Phase 1 | Pending |
-| BLD-06 | Phase 1 | Pending |
-| BLD-07 | Phase 1 | Pending |
+| BLD-01 | Phase 1 | Complete |
+| BLD-02 | Phase 1 | Complete |
+| BLD-03 | Phase 1 | Complete |
+| BLD-04 | Phase 1 | Complete |
+| BLD-05 | Phase 1 | Complete |
+| BLD-06 | Phase 1 | Complete |
+| BLD-07 | Phase 1 | Complete |
 | PKG-01 | Phase 2 | Pending |
 | PKG-02 | Phase 2 | Pending |
 | PKG-03 | Phase 2 | Pending |
