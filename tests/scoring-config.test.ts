@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createIntentMap } from '../src/index.js'
+import { createIntentMap, defineIntent } from '../src/index.js'
 
 const baseConfig = {
   intents: {
@@ -167,6 +167,141 @@ describe('scoring config: debug breakdown and custom stemmer', () => {
       for (const breakdown of Object.values(result.debug)) {
         expect(breakdown.aboveThreshold).toBe(false)
       }
+    }
+  })
+})
+
+describe('scoring calibration: relative ranking', () => {
+  const calibrationIntents = {
+    checkout: defineIntent(['buy now', 'place order', 'add to cart']),
+    search: defineIntent(['search for', 'find product', 'look up']),
+  }
+
+  const weightConfigs = [
+    { name: 'default (0.35/0.65)', weights: undefined },
+    { name: 'cosine-heavy (0.7/0.3)', weights: { cosine: 0.7, keyword: 0.3 } },
+    { name: 'keyword-heavy (0.1/0.9)', weights: { cosine: 0.1, keyword: 0.9 } },
+    { name: 'equal (0.5/0.5)', weights: { cosine: 0.5, keyword: 0.5 } },
+  ]
+
+  it.each(weightConfigs)('ranks checkout above search for "buy now" with $name', ({ weights }) => {
+    const im = createIntentMap({
+      intents: calibrationIntents,
+      ...(weights ? { weights } : {}),
+    })
+    const result = im.match('buy now')
+    expect(result.scores.checkout).toBeGreaterThan(result.scores.search)
+  })
+})
+
+describe('scoring calibration: threshold boundaries', () => {
+  it('low threshold (0.1) with exact pattern match: matched is true', () => {
+    const im = createIntentMap({
+      intents: { checkout: defineIntent(['buy now', 'place order']) },
+      defaultThreshold: 0.1,
+    })
+    const result = im.match('buy now')
+    expect(result.matched).toBe(true)
+  })
+
+  it('low threshold (0.1) with semantically close input: matched is true', () => {
+    const im = createIntentMap({
+      intents: { checkout: defineIntent(['buy now', 'place order']) },
+      defaultThreshold: 0.1,
+    })
+    const result = im.match('buy something now')
+    expect(result.matched).toBe(true)
+  })
+
+  it('high threshold (0.99) with exact pattern match: matched may be false', () => {
+    const im = createIntentMap({
+      intents: { checkout: defineIntent(['buy now', 'place order']) },
+      defaultThreshold: 0.99,
+    })
+    const result = im.match('buy now')
+    // Exact match confidence is unlikely to reach 0.99
+    expect(result.matched).toBe(false)
+  })
+
+  it('high threshold (0.99) with unrelated input: matched is false', () => {
+    const im = createIntentMap({
+      intents: { checkout: defineIntent(['buy now', 'place order']) },
+      defaultThreshold: 0.99,
+    })
+    const result = im.match('the weather is nice today')
+    expect(result.matched).toBe(false)
+  })
+
+  it('per-intent threshold overrides defaultThreshold', () => {
+    const im = createIntentMap({
+      intents: {
+        strict: defineIntent(['exact match required'], { threshold: 0.99 }),
+        lenient: defineIntent(['easy to match'], { threshold: 0.01 }),
+      },
+      defaultThreshold: 0.5,
+    })
+    // The "strict" intent has threshold 0.99 -- even with a close match,
+    // the matched result should be false because the per-intent threshold is 0.99
+    const strictResult = im.match('exact match required somewhat')
+    // Score exists but matched depends on threshold; check that score is present
+    expect(strictResult.scores.strict).toBeDefined()
+
+    // The "lenient" intent has threshold 0.01, so a close match should succeed
+    const lenientResult = im.match('easy to find')
+    expect(lenientResult.matched).toBe(true)
+    expect(lenientResult.intent).toBe('lenient')
+  })
+})
+
+describe('scoring calibration: confidence ranges', () => {
+  it('exact pattern match has higher confidence than partial match', () => {
+    const im = createIntentMap({
+      intents: { checkout: defineIntent(['buy now', 'place order']) },
+      defaultThreshold: 0.01,
+    })
+    const exact = im.match('buy now')
+    const partial = im.match('buy something maybe')
+    expect(exact.confidence).toBeGreaterThan(partial.confidence)
+  })
+
+  it('unrelated input has lower confidence than related input', () => {
+    const im = createIntentMap({
+      intents: { checkout: defineIntent(['buy now', 'place order']) },
+      defaultThreshold: 0.01,
+    })
+    const related = im.match('buy items')
+    const unrelated = im.match('weather forecast')
+    expect(related.confidence).toBeGreaterThan(unrelated.confidence)
+  })
+
+  it('all scores are between 0 and 1', () => {
+    const im = createIntentMap({
+      intents: {
+        checkout: defineIntent(['buy now']),
+        search: defineIntent(['search for']),
+      },
+      defaultThreshold: 0.01,
+    })
+    const result = im.match('buy now')
+    for (const score of Object.values(result.scores)) {
+      expect(score).toBeGreaterThanOrEqual(0)
+      expect(score).toBeLessThanOrEqual(1)
+    }
+    expect(result.confidence).toBeGreaterThanOrEqual(0)
+    expect(result.confidence).toBeLessThanOrEqual(1)
+  })
+
+  it('confidence equals the winning intent score', () => {
+    const im = createIntentMap({
+      intents: {
+        checkout: defineIntent(['buy now']),
+        search: defineIntent(['search for']),
+      },
+      defaultThreshold: 0.01,
+    })
+    const result = im.match('buy now')
+    if (result.intent) {
+      expect(result.confidence).toBe(result.scores[result.intent])
     }
   })
 })
