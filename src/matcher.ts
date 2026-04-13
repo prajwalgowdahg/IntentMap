@@ -1,6 +1,6 @@
 import { VectorStore, buildVector, cosineSimilarity } from './embeddings.js'
 import { stem, tokenize } from './tokenizer.js'
-import type { IntentConfig, MatchResult } from './types.js'
+import type { IntentConfig, IntentScoreBreakdown, MatchResult } from './types.js'
 
 export class Matcher {
   private store: VectorStore
@@ -9,7 +9,7 @@ export class Matcher {
   private caseSensitive: boolean
   private debug: boolean
   private weights: { cosine: number; keyword: number }
-  private stemmer?: ((word: string) => string) | undefined
+  private stemmer: (word: string) => string
 
   constructor(config: {
     defaultThreshold: number
@@ -18,12 +18,12 @@ export class Matcher {
     weights: { cosine: number; keyword: number }
     stemmer?: (word: string) => string
   }) {
-    this.store = new VectorStore()
+    this.stemmer = config.stemmer ?? stem
+    this.store = new VectorStore(this.stemmer)
     this.defaultThreshold = config.defaultThreshold ?? 0.25
     this.caseSensitive = config.caseSensitive ?? false
     this.debug = config.debug ?? false
     this.weights = config.weights
-    this.stemmer = config.stemmer
   }
 
   addIntent(name: string, patterns: string[], threshold?: number): void {
@@ -43,10 +43,11 @@ export class Matcher {
   }
 
   match(input: string): MatchResult {
-    const inputStems = tokenize(input, this.caseSensitive).map(stem)
+    const inputStems = tokenize(input, this.caseSensitive).map(this.stemmer)
     const inputVec = buildVector(input, this.caseSensitive, inputStems)
     const intents = this.store.getIntents()
     const scores: Record<string, number> = {}
+    const debugBreakdown: Record<string, IntentScoreBreakdown> = {}
 
     for (const intent of intents) {
       const avgVec = this.store.getAverage(intent)
@@ -54,6 +55,17 @@ export class Matcher {
       const keyword = this.store.bestKeywordScore(intent, inputStems)
       const blended = this.weights.cosine * cosine + this.weights.keyword * keyword
       scores[intent] = Number.parseFloat(blended.toFixed(4))
+
+      if (this.debug) {
+        const threshold = this.thresholds.get(intent) ?? this.defaultThreshold
+        debugBreakdown[intent] = {
+          cosine,
+          keyword,
+          blended,
+          threshold,
+          aboveThreshold: blended > threshold,
+        }
+      }
     }
 
     if (this.debug) {
@@ -68,13 +80,19 @@ export class Matcher {
 
     const matched = topScore > threshold
 
-    return {
+    const result: MatchResult = {
       matched,
       intent: matched ? topIntent : null,
       confidence: topScore,
       scores,
       input,
     }
+
+    if (this.debug) {
+      result.debug = debugBreakdown
+    }
+
+    return result
   }
 
   getIntents(): string[] {

@@ -32,6 +32,7 @@ export interface MatchResult {
   confidence: number
   scores: Record<string, number>
   input: string
+  debug?: Record<string, IntentScoreBreakdown>
 }
 
 export interface BoundEvent {

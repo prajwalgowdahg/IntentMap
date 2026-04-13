@@ -76,10 +76,15 @@ export class VectorStore {
   private store: Map<string, PatternEntry[]> = new Map()
   private averageCache: Map<string, TokenVector> = new Map()
   private stemCache: Map<string, string[]> = new Map()
+  private stemmerFn: (word: string) => string
+
+  constructor(stemmerFn?: (word: string) => string) {
+    this.stemmerFn = stemmerFn ?? stem
+  }
 
   add(intent: string, text: string, caseSensitive = false): void {
-    const stems = tokenize(text, caseSensitive).map(stem)
-    const vec = buildVector(text, caseSensitive)
+    const stems = tokenize(text, caseSensitive).map(this.stemmerFn)
+    const vec = buildVector(text, caseSensitive, stems)
     const existing = this.store.get(intent) ?? []
     existing.push({ vec, stems })
     this.store.set(intent, existing)

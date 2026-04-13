@@ -140,17 +140,17 @@ describe('scoring config: debug breakdown and custom stemmer', () => {
   it('custom reversing stemmer produces different behavior than default', () => {
     const reverseStemmer = (w: string) => w.split('').reverse().join('')
     const imCustom = createIntentMap({
-      intents: { greet: { patterns: ['hello'] } },
+      intents: { greet: { patterns: ['walking slowly'] } },
       stemmer: reverseStemmer,
     })
     const imDefault = createIntentMap({
-      intents: { greet: { patterns: ['hello'] } },
+      intents: { greet: { patterns: ['walking slowly'] } },
     })
-    const resultCustom = imCustom.match('hello')
-    const resultDefault = imDefault.match('hello')
-    // Both should match since "hello" stems to itself with default stemmer,
-    // but reversed stemmer produces "olleh" for both pattern and input,
-    // so they should still match but with different internal scores
+    // Input uses different forms: default stemmer maps "walked" -> "walk" (matches "walk" from "walking")
+    // but reverse stemmer maps "walked" -> "deklaw" which doesn't match "gniklaw" from "walking"
+    const resultCustom = imCustom.match('walked')
+    const resultDefault = imDefault.match('walked')
+    expect(resultDefault.matched).toBe(true)
     expect(resultCustom.confidence).not.toBe(resultDefault.confidence)
   })
 
