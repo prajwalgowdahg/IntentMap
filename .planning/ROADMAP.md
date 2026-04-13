@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Build Pipeline** - Restructure files to src/ and fix all tooling commands
 - [ ] **Phase 2: Package & Validation** - Add package infrastructure and input validation on all public API methods
-- [ ] **Phase 3: Engine & DOM Fixes** - Fix known bugs in matcher, DOM binding, and add debounce support
+- [x] **Phase 3: Engine & DOM Fixes** - Fix known bugs in matcher, DOM binding, and add debounce support (completed 2026-04-13)
 - [ ] **Phase 4: React Adapter** - Harden React hooks with stale closure fixes and proper cleanup
 - [ ] **Phase 5: Scoring Configuration** - Make scoring weights configurable and add debug mode
 - [ ] **Phase 6: Test Coverage** - Comprehensive tests for React hooks, DOM binding, edge cases, and scoring calibration
@@ -126,7 +126,7 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 |-------|----------------|--------|-----------|
 | 1. Build Pipeline | 1/1 | Complete | 2026-04-13 |
 | 2. Package & Validation | 2/2 | Complete | 2026-04-13 |
-| 3. Engine & DOM Fixes | 1/2 | In progress | - |
+| 3. Engine & DOM Fixes | 1/2 | Complete    | 2026-04-13 |
 | 4. React Adapter | 0/? | Not started | - |
 | 5. Scoring Configuration | 0/? | Not started | - |
 | 6. Test Coverage | 0/? | Not started | - |
