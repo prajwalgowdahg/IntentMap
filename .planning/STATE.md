@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: milestone
-current_plan: 2 of 2 complete
+current_plan: 1 of 1 complete
 status: completed
-stopped_at: Phase 4 context gathered
-last_updated: "2026-04-13T12:00:17.438Z"
-last_activity: 2026-04-13 -- Phase 3 complete (duplicate bind fix, debounce, removeIntent cleanup)
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-04-13T12:14:43Z"
+last_activity: 2026-04-13 -- Phase 4 complete (React hooks hardened with stale closure fix, isAlive guard)
 progress:
   total_phases: 6
-  completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
+  completed_phases: 4
+  total_plans: 6
+  completed_plans: 6
   percent: 100
 ---
 
@@ -22,23 +22,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** `match(input)` returns a reliable, confidence-scored intent -- fast, offline, zero deps.
-**Current focus:** Phase 3 complete (engine and DOM fixes). Phase 4 next.
+**Current focus:** Phase 4 complete (React adapter hardened). Phase 5 next.
 
 ## Current Position
 
-Phase: 3 of 6 (Engine & DOM Fixes) -- COMPLETE
-Current Plan: 2 of 2 complete
-Status: Phase 3 complete, Phase 4 next
-Last activity: 2026-04-13 -- Phase 3 complete (duplicate bind fix, debounce, removeIntent cleanup)
+Phase: 4 of 6 (React Adapter) -- COMPLETE
+Current Plan: 1 of 1 complete
+Status: Phase 4 complete, Phase 5 next
+Last activity: 2026-04-13 -- Phase 4 complete (React hooks hardened with stale closure fix, isAlive guard)
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 8 min
-- Total execution time: 0.72 hours
+- Total plans completed: 6
+- Average duration: 7 min
+- Total execution time: 0.77 hours
 
 **By Phase:**
 
@@ -47,13 +47,15 @@ Progress: [██████████] 100%
 | 01-build-pipeline | 1 | 7 min | 7 min |
 | 02-package-validation | 2 | 16 min | 8 min |
 | 03-engine-dom-fixes | 2 | 20 min | 10 min |
+| 04-react-adapter | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (6 min), 02-02 (10 min), 03-01 (7 min), 03-02 (13 min)
+- Last 5 plans: 02-02 (10 min), 03-01 (7 min), 03-02 (13 min), 04-01 (3 min)
 - Trend: Steady
 
 | Phase 03 P01 | 7min | 3 tasks | 4 files |
 | Phase 03 P02 | 13min | 1 tasks | 3 files |
+| Phase 04 P01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -79,6 +81,10 @@ Recent decisions affecting current work:
 - [03-02]: Stored unbind function per element in unbindFns Map for reference equality on duplicate bind
 - [03-02]: Debounce uses trailing-only semantics with per-element timer in debounceTimers Map
 - [03-02]: removeIntent cleanup verified correct (matcher.removeIntent + handlers.delete)
+- [04-01]: useRef wrapper pattern for useIntent handler avoids stale closures without re-subscription
+- [04-01]: useIntentMap uses key ref comparison to detect key changes and re-create instance
+- [04-01]: useIntentBind stores unbind function in ref and calls it in useEffect cleanup
+- [04-01]: All hooks check im.isAlive before calling core methods; destroyed instances produce console.warn
 
 ### Pending Todos
 
@@ -86,11 +92,10 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 4]: React hook stale closure fix approach needs design decision during planning (useRef vs useSyncExternalStore)
 - [Phase 5]: Scoring weight normalization must not change default behavior when weights are omitted
 
 ## Session Continuity
 
-Last session: 2026-04-13T12:00:17.436Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-react-adapter/04-CONTEXT.md
+Last session: 2026-04-13T12:14:43Z
+Stopped at: Completed 04-01-PLAN.md
+Resume file: .planning/phases/04-react-adapter/04-01-SUMMARY.md

@@ -50,10 +50,10 @@
 
 ### React Adapter
 
-- [ ] **RCT-01**: `useIntentMap` accepts optional `key` prop to trigger instance re-creation
-- [ ] **RCT-02**: `useIntent` uses `useRef` for handler to prevent stale closure without re-subscription
-- [ ] **RCT-03**: `useIntentBind` properly cleans up on unmount
-- [ ] **RCT-04**: All hooks handle destroyed instance gracefully
+- [x] **RCT-01**: `useIntentMap` accepts optional `key` prop to trigger instance re-creation
+- [x] **RCT-02**: `useIntent` uses `useRef` for handler to prevent stale closure without re-subscription
+- [x] **RCT-03**: `useIntentBind` properly cleans up on unmount
+- [x] **RCT-04**: All hooks handle destroyed instance gracefully
 
 ### Scoring
 
@@ -132,10 +132,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | DOM-01 | Phase 3 | Complete |
 | DOM-02 | Phase 3 | Complete |
 | DOM-03 | Phase 3 | Complete |
-| RCT-01 | Phase 4 | Pending |
-| RCT-02 | Phase 4 | Pending |
-| RCT-03 | Phase 4 | Pending |
-| RCT-04 | Phase 4 | Pending |
+| RCT-01 | Phase 4 | Complete |
+| RCT-02 | Phase 4 | Complete |
+| RCT-03 | Phase 4 | Complete |
+| RCT-04 | Phase 4 | Complete |
 | SCR-01 | Phase 5 | Pending |
 | SCR-02 | Phase 5 | Pending |
 | SCR-03 | Phase 5 | Pending |
