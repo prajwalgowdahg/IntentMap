@@ -1,4 +1,4 @@
-import { tokenize, buildNgrams, stem } from './tokenizer.js'
+import { buildNgrams, stem, tokenize } from './tokenizer.js'
 import type { TokenVector } from './types.js'
 
 export function buildVector(text: string, caseSensitive = false): TokenVector {
@@ -33,10 +33,7 @@ export function cosineSimilarity(a: TokenVector, b: TokenVector): number {
  * Keyword overlap score: fraction of pattern stems found in input stems.
  * This is the primary signal — if core words match, the intent is likely right.
  */
-export function keywordOverlap(
-  inputTokens: string[],
-  patternTokens: string[]
-): number {
+export function keywordOverlap(inputTokens: string[], patternTokens: string[]): number {
   if (patternTokens.length === 0) return 0
   const inputSet = new Set(inputTokens)
   const hits = patternTokens.filter((t) => inputSet.has(t)).length
@@ -85,8 +82,9 @@ export class VectorStore {
   }
 
   getAverage(intent: string): TokenVector {
-    if (this.averageCache.has(intent)) {
-      return this.averageCache.get(intent)!
+    const cached = this.averageCache.get(intent)
+    if (cached) {
+      return cached
     }
     const entries = this.store.get(intent) ?? []
     const avg = averageVectors(entries.map((e) => e.vec))

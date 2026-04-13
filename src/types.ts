@@ -32,10 +32,7 @@ export interface IntentMapInstance {
   match(input: string): MatchResult
   on(intent: string, handler: IntentHandler): () => void
   off(intent: string, handler: IntentHandler): void
-  bind(
-    element: HTMLElement,
-    options?: BindOptions
-  ): () => void
+  bind(element: HTMLElement, options?: BindOptions): () => void
   addIntent(name: string, definition: IntentDefinition): void
   removeIntent(name: string): void
   train(intent: string, examples: string[]): void

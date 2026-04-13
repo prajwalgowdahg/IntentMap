@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createIntentMap, defineIntent } from '../src/index.js'
 
 const config = {
@@ -99,8 +99,8 @@ describe('IntentMap.match()', () => {
 
   it('checkout scores highest for purchase input', () => {
     const result = im.match('add to cart')
-    const checkoutScore = result.scores['checkout'] ?? 0
-    const searchScore = result.scores['search'] ?? 0
+    const checkoutScore = result.scores.checkout ?? 0
+    const searchScore = result.scores.search ?? 0
     expect(checkoutScore).toBeGreaterThan(searchScore)
   })
 })

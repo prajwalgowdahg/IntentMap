@@ -1,6 +1,11 @@
-import { useEffect, useRef, useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { createIntentMap } from '../index.js'
-import type { IntentConfig, IntentMapInstance, MatchResult, IntentHandler } from '../types.js'
+import type {
+  IntentConfig,
+  IntentHandler,
+  IntentMapInstance,
+  MatchResult,
+} from '../types.js'
 
 export function useIntentMap(config: IntentConfig): IntentMapInstance {
   const ref = useRef<IntentMapInstance | null>(null)
@@ -20,7 +25,7 @@ export function useIntent(
   useEffect(() => {
     const off = im.on(intent, handler)
     return off
-  }, [im, intent, ...deps])
+  }, [im, intent, handler, ...deps])
 }
 
 export function useIntentBind(
@@ -45,7 +50,7 @@ export function useIntentBind(
         },
       })
     },
-    [im]
+    [im, options]
   )
 
   useEffect(() => {

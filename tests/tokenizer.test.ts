@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { tokenize, buildNgrams, normalize } from '../src/tokenizer.js'
+import { describe, expect, it } from 'vitest'
+import { buildNgrams, normalize, tokenize } from '../src/tokenizer.js'
 
 describe('tokenize()', () => {
   it('lowercases by default', () => {

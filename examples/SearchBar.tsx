@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { useIntentMap, useIntent } from '../src/adapters/react.js'
+import type React from 'react'
+import { useState } from 'react'
+import { useIntent, useIntentMap } from '../src/adapters/react.js'
 import { defineIntent } from '../src/index.js'
 
 export default function SearchBar() {

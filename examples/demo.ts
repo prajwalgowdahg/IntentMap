@@ -18,13 +18,10 @@ const im = createIntentMap({
       'show me results',
       'filter by category',
     ]),
-    cancel: defineIntent([
-      'cancel order',
-      'stop this',
-      'abort',
-      'never mind',
-      'go back',
-    ], { threshold: 0.3 }),
+    cancel: defineIntent(
+      ['cancel order', 'stop this', 'abort', 'never mind', 'go back'],
+      { threshold: 0.3 }
+    ),
     support: defineIntent([
       'help me',
       'contact support',
@@ -67,6 +64,8 @@ for (const input of inputs) {
 im.train('checkout', ['finish buying', 'ready to pay', 'confirm order'])
 console.log('\nAfter training:')
 const trained = im.match('ready to pay for my items')
-console.log(`"ready to pay for my items" → ${trained.intent} (${trained.confidence.toFixed(3)})`)
+console.log(
+  `"ready to pay for my items" → ${trained.intent} (${trained.confidence.toFixed(3)})`
+)
 
 im.destroy()

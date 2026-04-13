@@ -1,11 +1,11 @@
 import { Matcher } from './matcher.js'
 import type {
+  BindOptions,
   IntentConfig,
   IntentDefinition,
   IntentHandler,
   IntentMapInstance,
   MatchResult,
-  BindOptions,
 } from './types.js'
 
 export class IntentMap implements IntentMapInstance {
@@ -46,7 +46,7 @@ export class IntentMap implements IntentMapInstance {
     if (!this.handlers.has(intent)) {
       this.handlers.set(intent, new Set())
     }
-    this.handlers.get(intent)!.add(handler)
+    this.handlers.get(intent)?.add(handler)
     return () => this.off(intent, handler)
   }
 
@@ -59,20 +59,14 @@ export class IntentMap implements IntentMapInstance {
   }
 
   bind(element: HTMLElement, options: BindOptions = {}): () => void {
-    const {
-      on: eventTypes = ['input', 'change'],
-      extractor,
-      filter,
-    } = options
+    const { on: eventTypes = ['input', 'change'], extractor, filter } = options
 
     const types = Array.isArray(eventTypes) ? eventTypes : [eventTypes]
     const cleanupFns: (() => void)[] = []
 
     for (const eventType of types) {
       const listener = (event: Event) => {
-        const text = extractor
-          ? extractor(event)
-          : extractText(event)
+        const text = extractor ? extractor(event) : extractText(event)
 
         if (!text) return
 
@@ -93,9 +87,9 @@ export class IntentMap implements IntentMapInstance {
 
     return () => {
       cleanupFns.forEach((fn) => fn())
-      const remaining = this.boundElements.get(element)?.filter(
-        (fn) => !cleanupFns.includes(fn)
-      )
+      const remaining = this.boundElements
+        .get(element)
+        ?.filter((fn) => !cleanupFns.includes(fn))
       if (remaining?.length) {
         this.boundElements.set(element, remaining)
       } else {

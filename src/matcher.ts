@@ -1,8 +1,8 @@
-import { buildVector, cosineSimilarity, VectorStore } from './embeddings.js'
-import { tokenize, stem } from './tokenizer.js'
-import type { MatchResult, IntentConfig } from './types.js'
+import { VectorStore, buildVector, cosineSimilarity } from './embeddings.js'
+import { stem, tokenize } from './tokenizer.js'
+import type { IntentConfig, MatchResult } from './types.js'
 
-const COSINE_WEIGHT  = 0.35
+const COSINE_WEIGHT = 0.35
 const KEYWORD_WEIGHT = 0.65
 
 export class Matcher {
@@ -12,7 +12,11 @@ export class Matcher {
   private caseSensitive: boolean
   private debug: boolean
 
-  constructor(config: { defaultThreshold: number; caseSensitive: boolean; debug: boolean }) {
+  constructor(config: {
+    defaultThreshold: number
+    caseSensitive: boolean
+    debug: boolean
+  }) {
     this.store = new VectorStore()
     this.defaultThreshold = config.defaultThreshold ?? 0.25
     this.caseSensitive = config.caseSensitive ?? false
@@ -36,17 +40,17 @@ export class Matcher {
   }
 
   match(input: string): MatchResult {
-    const inputVec    = buildVector(input, this.caseSensitive)
-    const inputStems  = tokenize(input, this.caseSensitive).map(stem)
-    const intents     = this.store.getIntents()
+    const inputVec = buildVector(input, this.caseSensitive)
+    const inputStems = tokenize(input, this.caseSensitive).map(stem)
+    const intents = this.store.getIntents()
     const scores: Record<string, number> = {}
 
     for (const intent of intents) {
-      const avgVec      = this.store.getAverage(intent)
-      const cosine      = cosineSimilarity(inputVec, avgVec)
-      const keyword     = this.store.bestKeywordScore(intent, inputStems)
-      const blended     = COSINE_WEIGHT * cosine + KEYWORD_WEIGHT * keyword
-      scores[intent]    = parseFloat(blended.toFixed(4))
+      const avgVec = this.store.getAverage(intent)
+      const cosine = cosineSimilarity(inputVec, avgVec)
+      const keyword = this.store.bestKeywordScore(intent, inputStems)
+      const blended = COSINE_WEIGHT * cosine + KEYWORD_WEIGHT * keyword
+      scores[intent] = Number.parseFloat(blended.toFixed(4))
     }
 
     if (this.debug) {
