@@ -4,14 +4,14 @@ milestone: v0.1
 milestone_name: milestone
 current_plan: 2 of 2 complete
 status: completed
-stopped_at: Phase 6 context gathered
-last_updated: "2026-04-13T13:32:29.711Z"
-last_activity: 2026-04-13 -- Phase 5 complete (debug breakdown, custom stemmer, scoring weights wired)
+stopped_at: Phase 6 complete (all plans executed)
+last_updated: "2026-04-13T14:02:19Z"
+last_activity: 2026-04-13 -- Phase 6 complete (edge cases, scoring calibration, DOM binding tests)
 progress:
   total_phases: 6
-  completed_phases: 5
-  total_plans: 8
-  completed_plans: 8
+  completed_phases: 6
+  total_plans: 10
+  completed_plans: 10
   percent: 100
 ---
 
@@ -22,23 +22,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** `match(input)` returns a reliable, confidence-scored intent -- fast, offline, zero deps.
-**Current focus:** Phase 5 complete (Scoring configuration). Phase 6 next.
+**Current focus:** Phase 6 complete (Test coverage). All phases done.
 
 ## Current Position
 
-Phase: 5 of 6 (Scoring Configuration) -- COMPLETE
+Phase: 6 of 6 (Test Coverage) -- COMPLETE
 Current Plan: 2 of 2 complete
-Status: Phase 5 complete, Phase 6 next
-Last activity: 2026-04-13 -- Phase 5 complete (debug breakdown, custom stemmer, scoring weights wired)
+Status: All phases complete
+Last activity: 2026-04-13 -- Phase 6 complete (edge cases, scoring calibration, DOM binding tests)
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 10
 - Average duration: 7 min
-- Total execution time: 0.85 hours
+- Total execution time: 1.08 hours
 
 **By Phase:**
 
@@ -49,9 +49,10 @@ Progress: [██████████] 100%
 | 03-engine-dom-fixes | 2 | 20 min | 10 min |
 | 04-react-adapter | 1 | 3 min | 3 min |
 | 05-scoring-configuration | 2 | 11 min | 6 min |
+| 06-test-coverage | 2 | 14 min | 7 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (7 min), 03-02 (13 min), 04-01 (3 min), 05-01 (6 min), 05-02 (5 min)
+- Last 5 plans: 04-01 (3 min), 05-01 (6 min), 05-02 (5 min), 06-01 (7 min), 06-02 (7 min)
 - Trend: Steady
 
 | Phase 03 P01 | 7min | 3 tasks | 4 files |
@@ -59,6 +60,8 @@ Progress: [██████████] 100%
 | Phase 04 P01 | 3min | 2 tasks | 3 files |
 | Phase 05 P01 | 6min | 2 tasks | 5 files |
 | Phase 05 P02 | 5min | 2 tasks | 4 files |
+| Phase 06 P01 | 7min | 2 tasks | 4 files |
+| Phase 06 P02 | 7min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -93,6 +96,8 @@ Recent decisions affecting current work:
 - [05-02]: VectorStore takes stemmer via constructor (not per-method param) for consistent use across add/addAll
 - [05-02]: Debug field set to undefined (not empty object) when debug: false to avoid leaking data
 - [05-02]: Matcher resolves stemmer at construction time, stores as non-optional field defaulting to stem()
+- [06-02]: Used relative score comparisons for all calibration assertions per locked decision
+- [06-02]: Per-intent threshold test verifies behavioral outcome rather than score magnitude
 
 ### Pending Todos
 
@@ -104,6 +109,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-13T13:32:29.708Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-test-coverage/06-CONTEXT.md
+Last session: 2026-04-13T14:02:19Z
+Stopped at: All phases complete
+Resume file: .planning/phases/06-test-coverage/06-02-SUMMARY.md
