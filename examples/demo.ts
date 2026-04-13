@@ -1,4 +1,4 @@
-import { createIntentMap, defineIntent } from 'intentmap'
+import { createIntentMap, defineIntent } from '../src/index.js'
 
 const im = createIntentMap({
   defaultThreshold: 0.2,

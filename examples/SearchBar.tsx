@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useIntentMap, useIntent } from 'intentmap/react'
-import { defineIntent } from 'intentmap'
+import { useIntentMap, useIntent } from '../src/adapters/react.js'
+import { defineIntent } from '../src/index.js'
 
 export default function SearchBar() {
   const [status, setStatus] = useState('')
