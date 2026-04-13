@@ -28,10 +28,15 @@ export class IntentMap implements IntentMapInstance {
   }
 
   constructor(config: IntentConfig) {
+    const cosine = config.weights?.cosine ?? 0.35
+    const keyword = config.weights?.keyword ?? 0.65
+
     this.matcher = new Matcher({
       defaultThreshold: config.defaultThreshold ?? 0.25,
       caseSensitive: config.caseSensitive ?? false,
       debug: config.debug ?? false,
+      weights: { cosine, keyword },
+      ...(config.stemmer ? { stemmer: config.stemmer } : {}),
     })
 
     for (const [name, def] of Object.entries(config.intents)) {

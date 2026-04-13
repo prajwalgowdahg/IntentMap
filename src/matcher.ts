@@ -2,25 +2,28 @@ import { VectorStore, buildVector, cosineSimilarity } from './embeddings.js'
 import { stem, tokenize } from './tokenizer.js'
 import type { IntentConfig, MatchResult } from './types.js'
 
-const COSINE_WEIGHT = 0.35
-const KEYWORD_WEIGHT = 0.65
-
 export class Matcher {
   private store: VectorStore
   private thresholds: Map<string, number> = new Map()
   private defaultThreshold: number
   private caseSensitive: boolean
   private debug: boolean
+  private weights: { cosine: number; keyword: number }
+  private stemmer?: ((word: string) => string) | undefined
 
   constructor(config: {
     defaultThreshold: number
     caseSensitive: boolean
     debug: boolean
+    weights: { cosine: number; keyword: number }
+    stemmer?: (word: string) => string
   }) {
     this.store = new VectorStore()
     this.defaultThreshold = config.defaultThreshold ?? 0.25
     this.caseSensitive = config.caseSensitive ?? false
     this.debug = config.debug ?? false
+    this.weights = config.weights
+    this.stemmer = config.stemmer
   }
 
   addIntent(name: string, patterns: string[], threshold?: number): void {
@@ -49,7 +52,7 @@ export class Matcher {
       const avgVec = this.store.getAverage(intent)
       const cosine = cosineSimilarity(inputVec, avgVec)
       const keyword = this.store.bestKeywordScore(intent, inputStems)
-      const blended = COSINE_WEIGHT * cosine + KEYWORD_WEIGHT * keyword
+      const blended = this.weights.cosine * cosine + this.weights.keyword * keyword
       scores[intent] = Number.parseFloat(blended.toFixed(4))
     }
 
