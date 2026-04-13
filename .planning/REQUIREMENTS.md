@@ -59,7 +59,7 @@
 
 - [x] **SCR-01**: `IntentConfig` accepts optional `weights?: { cosine?: number; keyword?: number }`
 - [x] **SCR-02**: Weights normalized internally to sum to 1.0, defaulting to 0.35/0.65
-- [ ] **SCR-03**: `MatchResult` includes optional `debug` field with per-intent scoring breakdown when `debug: true`
+- [x] **SCR-03**: `MatchResult` includes optional `debug` field with per-intent scoring breakdown when `debug: true`
 - [x] **SCR-04**: `IntentConfig` accepts optional `stemmer?: (word: string) => string` for custom stemming
 
 ### Test Coverage
@@ -138,7 +138,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | RCT-04 | Phase 4 | Complete |
 | SCR-01 | Phase 5 | Complete |
 | SCR-02 | Phase 5 | Complete |
-| SCR-03 | Phase 5 | Pending |
+| SCR-03 | Phase 5 | Complete |
 | SCR-04 | Phase 5 | Complete |
 | TST-01 | Phase 6 | Pending |
 | TST-02 | Phase 6 | Pending |

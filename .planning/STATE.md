@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: milestone
-current_plan: 1 of 1 complete
+current_plan: 2 of 2 complete
 status: completed
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-04-13T12:56:08.699Z"
-last_activity: 2026-04-13 -- Phase 4 complete (React hooks hardened with stale closure fix, isAlive guard)
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-04-13T13:03:34Z"
+last_activity: 2026-04-13 -- Phase 5 complete (debug breakdown, custom stemmer, scoring weights wired)
 progress:
   total_phases: 6
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
   percent: 100
 ---
 
@@ -22,23 +22,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** `match(input)` returns a reliable, confidence-scored intent -- fast, offline, zero deps.
-**Current focus:** Phase 4 complete (React adapter hardened). Phase 5 next.
+**Current focus:** Phase 5 complete (Scoring configuration). Phase 6 next.
 
 ## Current Position
 
-Phase: 4 of 6 (React Adapter) -- COMPLETE
-Current Plan: 1 of 1 complete
-Status: Phase 4 complete, Phase 5 next
-Last activity: 2026-04-13 -- Phase 4 complete (React hooks hardened with stale closure fix, isAlive guard)
+Phase: 5 of 6 (Scoring Configuration) -- COMPLETE
+Current Plan: 2 of 2 complete
+Status: Phase 5 complete, Phase 6 next
+Last activity: 2026-04-13 -- Phase 5 complete (debug breakdown, custom stemmer, scoring weights wired)
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 8
 - Average duration: 7 min
-- Total execution time: 0.77 hours
+- Total execution time: 0.85 hours
 
 **By Phase:**
 
@@ -48,15 +48,17 @@ Progress: [██████████] 100%
 | 02-package-validation | 2 | 16 min | 8 min |
 | 03-engine-dom-fixes | 2 | 20 min | 10 min |
 | 04-react-adapter | 1 | 3 min | 3 min |
+| 05-scoring-configuration | 2 | 11 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (10 min), 03-01 (7 min), 03-02 (13 min), 04-01 (3 min)
+- Last 5 plans: 03-01 (7 min), 03-02 (13 min), 04-01 (3 min), 05-01 (6 min), 05-02 (5 min)
 - Trend: Steady
 
 | Phase 03 P01 | 7min | 3 tasks | 4 files |
 | Phase 03 P02 | 13min | 1 tasks | 3 files |
 | Phase 04 P01 | 3min | 2 tasks | 3 files |
 | Phase 05 P01 | 6min | 2 tasks | 5 files |
+| Phase 05 P02 | 5min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -88,6 +90,9 @@ Recent decisions affecting current work:
 - [04-01]: All hooks check im.isAlive before calling core methods; destroyed instances produce console.warn
 - [Phase 05]: normalizeWeights returns default 0.35/0.65 when weights undefined; single weight infers other, both normalize by sum
 - [Phase 05]: Matcher stores weights as instance fields replacing COSINE_WEIGHT/KEYWORD_WEIGHT constants
+- [05-02]: VectorStore takes stemmer via constructor (not per-method param) for consistent use across add/addAll
+- [05-02]: Debug field set to undefined (not empty object) when debug: false to avoid leaking data
+- [05-02]: Matcher resolves stemmer at construction time, stores as non-optional field defaulting to stem()
 
 ### Pending Todos
 
@@ -95,10 +100,10 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 5]: Scoring weight normalization must not change default behavior when weights are omitted
+None.
 
 ## Session Continuity
 
-Last session: 2026-04-13T12:56:08.698Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-04-13T13:03:34Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
