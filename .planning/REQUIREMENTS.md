@@ -25,14 +25,14 @@
 
 ### Input Validation
 
-- [ ] **VAL-01**: `createIntentMap()` validates config object shape and throws descriptive `TypeError` on invalid input
-- [ ] **VAL-02**: `match()` validates input is a string and throws `TypeError` with message like `match() expected a string, got null`
-- [ ] **VAL-03**: `on()` validates intent name is string and handler is function
-- [ ] **VAL-04**: `addIntent()` validates name, patterns, and options
-- [ ] **VAL-05**: `train()` validates intent name exists and examples is a non-empty array
-- [ ] **VAL-06**: `bind()` validates element is an HTMLElement and options are valid
-- [ ] **VAL-07**: `match()` enforces max input length (10,000 chars) returning no-match for oversized input
-- [ ] **VAL-08**: All public methods guard against calls after `destroy()` with descriptive error
+- [x] **VAL-01**: `createIntentMap()` validates config object shape and throws descriptive `TypeError` on invalid input
+- [x] **VAL-02**: `match()` validates input is a string and throws `TypeError` with message like `match() expected a string, got null`
+- [x] **VAL-03**: `on()` validates intent name is string and handler is function
+- [x] **VAL-04**: `addIntent()` validates name, patterns, and options
+- [x] **VAL-05**: `train()` validates intent name exists and examples is a non-empty array
+- [x] **VAL-06**: `bind()` validates element is an HTMLElement and options are valid
+- [x] **VAL-07**: `match()` enforces max input length (10,000 chars) returning no-match for oversized input
+- [x] **VAL-08**: All public methods guard against calls after `destroy()` with descriptive error
 
 ### Bug Fixes
 
@@ -116,14 +116,14 @@ Deferred to future release. Tracked but not in current roadmap.
 | PKG-03 | Phase 2 | Complete |
 | PKG-04 | Phase 2 | Complete |
 | PKG-05 | Phase 2 | Complete |
-| VAL-01 | Phase 2 | Pending |
-| VAL-02 | Phase 2 | Pending |
-| VAL-03 | Phase 2 | Pending |
-| VAL-04 | Phase 2 | Pending |
-| VAL-05 | Phase 2 | Pending |
-| VAL-06 | Phase 2 | Pending |
-| VAL-07 | Phase 2 | Pending |
-| VAL-08 | Phase 2 | Pending |
+| VAL-01 | Phase 2 | Complete |
+| VAL-02 | Phase 2 | Complete |
+| VAL-03 | Phase 2 | Complete |
+| VAL-04 | Phase 2 | Complete |
+| VAL-05 | Phase 2 | Complete |
+| VAL-06 | Phase 2 | Complete |
+| VAL-07 | Phase 2 | Complete |
+| VAL-08 | Phase 2 | Complete |
 | BUG-01 | Phase 3 | Pending |
 | BUG-02 | Phase 3 | Pending |
 | BUG-03 | Phase 3 | Pending |
