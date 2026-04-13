@@ -13,6 +13,8 @@ export class IntentMap implements IntentMapInstance {
   private handlers: Map<string, Set<IntentHandler>> = new Map()
   private wildcardHandlers: Set<IntentHandler> = new Set()
   private boundElements: Map<HTMLElement, (() => void)[]> = new Map()
+  private unbindFns: Map<HTMLElement, () => void> = new Map()
+  private debounceTimers: Map<HTMLElement, ReturnType<typeof setTimeout>> = new Map()
   private destroyed = false
 
   private guardNotDestroyed(methodName: string): void {
@@ -114,6 +116,20 @@ export class IntentMap implements IntentMapInstance {
         `[intentmap] bind() expected options as an object, got ${typeof options}`
       )
     }
+
+    // Debounce validation
+    const debounceMs = options.debounce
+    if (debounceMs !== undefined && (typeof debounceMs !== 'number' || debounceMs <= 0)) {
+      throw new TypeError(
+        `[intentmap] bind() debounce must be a positive number, got ${debounceMs}`
+      )
+    }
+
+    // Duplicate bind check: skip silently, return existing unbind function
+    if (this.unbindFns.has(element)) {
+      return this.unbindFns.get(element)!
+    }
+
     const { on: eventTypes = ['input', 'change'], extractor, filter } = options
 
     const types = Array.isArray(eventTypes) ? eventTypes : [eventTypes]
@@ -125,10 +141,21 @@ export class IntentMap implements IntentMapInstance {
 
         if (!text) return
 
-        const result = this.match(text)
-        if (filter && !filter(result)) return
-
-        this.emit(result, event)
+        if (debounceMs) {
+          const existing = this.debounceTimers.get(element)
+          if (existing) clearTimeout(existing)
+          const timer = setTimeout(() => {
+            this.debounceTimers.delete(element)
+            const result = this.match(text)
+            if (filter && !filter(result)) return
+            this.emit(result, event)
+          }, debounceMs)
+          this.debounceTimers.set(element, timer)
+        } else {
+          const result = this.match(text)
+          if (filter && !filter(result)) return
+          this.emit(result, event)
+        }
       }
 
       element.addEventListener(eventType, listener)
@@ -140,7 +167,8 @@ export class IntentMap implements IntentMapInstance {
       ...cleanupFns,
     ])
 
-    return () => {
+    const unbind = () => {
+      if (!this.boundElements.has(element) && !this.unbindFns.has(element)) return
       cleanupFns.forEach((fn) => fn())
       const remaining = this.boundElements
         .get(element)
@@ -150,7 +178,15 @@ export class IntentMap implements IntentMapInstance {
       } else {
         this.boundElements.delete(element)
       }
+      if (this.debounceTimers.has(element)) {
+        clearTimeout(this.debounceTimers.get(element)!)
+        this.debounceTimers.delete(element)
+      }
+      this.unbindFns.delete(element)
     }
+
+    this.unbindFns.set(element, unbind)
+    return unbind
   }
 
   addIntent(name: string, definition: IntentDefinition): void {
@@ -215,6 +251,10 @@ export class IntentMap implements IntentMapInstance {
   destroy(): void {
     if (this.destroyed) return
     this.destroyed = true
+    for (const [, timer] of this.debounceTimers) {
+      clearTimeout(timer)
+    }
+    this.debounceTimers.clear()
     for (const [, cleanupFns] of this.boundElements) {
       cleanupFns.forEach((fn) => fn())
     }

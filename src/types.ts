@@ -44,6 +44,7 @@ export interface BindOptions {
   on?: string | string[]
   extractor?: (event: Event) => string
   filter?: (result: MatchResult) => boolean
+  debounce?: number
 }
 
 export type TokenVector = Map<string, number>
