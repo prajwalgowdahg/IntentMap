@@ -77,11 +77,10 @@ Plans:
   2. `useIntent` fires the latest handler reference on each match without re-subscribing (no stale closure)
   3. `useIntentBind` cleans up DOM event listeners on component unmount without leaking
   4. All three hooks behave gracefully when the IntentMap instance has been destroyed (no crashes)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — Add isAlive accessor, rewrite all three hooks with stale closure fix, cleanup, key re-creation, and destroyed-state handling (RCT-01, RCT-02, RCT-03, RCT-04)
 
 ### Phase 5: Scoring Configuration
 **Goal**: Developers can tune scoring weights and use a custom stemmer, and debug mode reveals per-intent scoring breakdowns
@@ -127,6 +126,6 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 | 1. Build Pipeline | 1/1 | Complete | 2026-04-13 |
 | 2. Package & Validation | 2/2 | Complete | 2026-04-13 |
 | 3. Engine & DOM Fixes | 1/2 | Complete    | 2026-04-13 |
-| 4. React Adapter | 0/? | Not started | - |
+| 4. React Adapter | 0/1 | Not started | - |
 | 5. Scoring Configuration | 0/? | Not started | - |
 | 6. Test Coverage | 0/? | Not started | - |
