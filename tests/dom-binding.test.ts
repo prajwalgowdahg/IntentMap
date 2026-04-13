@@ -181,7 +181,9 @@ describe('bind() debounce behavior (DOM-01/02)', () => {
     const im = createIntentMap(config)
     const { element } = createMockElement()
 
-    expect(() => im.bind(element, { debounce: -50 as unknown as number })).toThrow(TypeError)
+    expect(() => im.bind(element, { debounce: -50 as unknown as number })).toThrow(
+      TypeError
+    )
     expect(() => im.bind(element, { debounce: -50 as unknown as number })).toThrow(
       /\[intentmap\] bind\(\) debounce must be a positive number/
     )

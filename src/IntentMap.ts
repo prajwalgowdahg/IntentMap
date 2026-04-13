@@ -135,8 +135,9 @@ export class IntentMap implements IntentMapInstance {
     }
 
     // Duplicate bind check: skip silently, return existing unbind function
-    if (this.unbindFns.has(element)) {
-      return this.unbindFns.get(element)!
+    const existingUnbind = this.unbindFns.get(element)
+    if (existingUnbind !== undefined) {
+      return existingUnbind
     }
 
     const { on: eventTypes = ['input', 'change'], extractor, filter } = options
@@ -187,8 +188,9 @@ export class IntentMap implements IntentMapInstance {
       } else {
         this.boundElements.delete(element)
       }
-      if (this.debounceTimers.has(element)) {
-        clearTimeout(this.debounceTimers.get(element)!)
+      const timer = this.debounceTimers.get(element)
+      if (timer !== undefined) {
+        clearTimeout(timer)
         this.debounceTimers.delete(element)
       }
       this.unbindFns.delete(element)

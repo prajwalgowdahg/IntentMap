@@ -18,14 +18,20 @@ function normalizeWeights(weights: IntentWeights | undefined): NormalizedWeights
   const keyword = weights.keyword
 
   // Validate individual values if provided
-  if (cosine !== undefined && (typeof cosine !== 'number' || Number.isNaN(cosine) || cosine < 0)) {
+  if (
+    cosine !== undefined &&
+    (typeof cosine !== 'number' || Number.isNaN(cosine) || cosine < 0)
+  ) {
     throw new TypeError(
-      `[intentmap] createIntentMap() config.weights.cosine must be a non-negative number`
+      '[intentmap] createIntentMap() config.weights.cosine must be a non-negative number'
     )
   }
-  if (keyword !== undefined && (typeof keyword !== 'number' || Number.isNaN(keyword) || keyword < 0)) {
+  if (
+    keyword !== undefined &&
+    (typeof keyword !== 'number' || Number.isNaN(keyword) || keyword < 0)
+  ) {
     throw new TypeError(
-      `[intentmap] createIntentMap() config.weights.keyword must be a non-negative number`
+      '[intentmap] createIntentMap() config.weights.keyword must be a non-negative number'
     )
   }
 
@@ -33,7 +39,7 @@ function normalizeWeights(weights: IntentWeights | undefined): NormalizedWeights
   if (cosine !== undefined && keyword === undefined) {
     if (cosine < 0 || Number.isNaN(cosine)) {
       throw new TypeError(
-        `[intentmap] createIntentMap() config.weights.cosine must be a non-negative number`
+        '[intentmap] createIntentMap() config.weights.cosine must be a non-negative number'
       )
     }
     return { cosine, keyword: 1 - cosine }
@@ -41,7 +47,7 @@ function normalizeWeights(weights: IntentWeights | undefined): NormalizedWeights
   if (keyword !== undefined && cosine === undefined) {
     if (keyword < 0 || Number.isNaN(keyword)) {
       throw new TypeError(
-        `[intentmap] createIntentMap() config.weights.keyword must be a non-negative number`
+        '[intentmap] createIntentMap() config.weights.keyword must be a non-negative number'
       )
     }
     return { cosine: 1 - keyword, keyword }
@@ -53,7 +59,7 @@ function normalizeWeights(weights: IntentWeights | undefined): NormalizedWeights
   const sum = c + k
   if (sum === 0) {
     throw new TypeError(
-      `[intentmap] createIntentMap() config.weights cannot have a zero sum`
+      '[intentmap] createIntentMap() config.weights cannot have a zero sum'
     )
   }
   return { cosine: c / sum, keyword: k / sum }
@@ -139,7 +145,11 @@ export function createIntentMap(config: unknown): IntentMapInstance {
   }
 
   // Validate stemmer if provided
-  if ('stemmer' in cfg && cfg.stemmer !== undefined && typeof cfg.stemmer !== 'function') {
+  if (
+    'stemmer' in cfg &&
+    cfg.stemmer !== undefined &&
+    typeof cfg.stemmer !== 'function'
+  ) {
     throw new TypeError(
       `[intentmap] createIntentMap() config.stemmer must be a function, got ${typeof cfg.stemmer}`
     )

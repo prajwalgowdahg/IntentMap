@@ -16,13 +16,13 @@
     "typescript",
     "react"
   ],
-  "homepage": "https://github.com/prajwalgowdahg/intentmap#readme",
+  "homepage": "https://github.com/prajwalgowdahg/IntentMap#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prajwalgowdahg/intentmap.git"
+    "url": "git+https://github.com/prajwalgowdahg/IntentMap.git"
   },
   "bugs": {
-    "url": "https://github.com/prajwalgowdahg/intentmap/issues"
+    "url": "https://github.com/prajwalgowdahg/IntentMap/issues"
   },
   "type": "module",
   "main": "./dist/index.cjs",

@@ -31,5 +31,5 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - CI workflow for Node 18, 20, 22 via GitHub Actions
 - Zero runtime dependencies
 
-[Unreleased]: https://github.com/yourusername/intentmap/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/yourusername/intentmap/releases/tag/v0.1.0
+[Unreleased]: https://github.com/prajwalgowdahg/IntentMap/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/prajwalgowdahg/IntentMap/releases/tag/v0.1.0

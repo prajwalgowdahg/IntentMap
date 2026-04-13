@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { createIntentMap, defineIntent } from '../src/index.js'
 
 const baseConfig = {
@@ -43,7 +43,7 @@ describe('scoring config: weights and stemmer validation', () => {
   // Test 6: NaN weight throws
   it('throws TypeError on NaN weight', () => {
     expect(() =>
-      createIntentMap({ ...baseConfig, weights: { cosine: NaN, keyword: 0.5 } })
+      createIntentMap({ ...baseConfig, weights: { cosine: Number.NaN, keyword: 0.5 } })
     ).toThrow(TypeError)
   })
 
@@ -72,7 +72,10 @@ describe('scoring config: weights and stemmer validation', () => {
   // Test 10: non-function stemmer throws
   it('throws TypeError when stemmer is not a function', () => {
     expect(() =>
-      createIntentMap({ ...baseConfig, stemmer: 'not a function' as unknown as (w: string) => string })
+      createIntentMap({
+        ...baseConfig,
+        stemmer: 'not a function' as unknown as (w: string) => string,
+      })
     ).toThrow(TypeError)
   })
 
@@ -106,7 +109,11 @@ describe('scoring config: debug breakdown and custom stemmer', () => {
   it('debug breakdown has cosine, keyword, blended, threshold, aboveThreshold', () => {
     const im = createIntentMap(debugConfig)
     const result = im.match('hello')
-    const greetBreakdown = result.debug!.greet
+    const greetBreakdown = result.debug?.greet
+    expect(greetBreakdown).toBeDefined()
+    if (!greetBreakdown) {
+      throw new Error('Expected debug breakdown for greet intent')
+    }
     expect(typeof greetBreakdown.cosine).toBe('number')
     expect(typeof greetBreakdown.keyword).toBe('number')
     expect(typeof greetBreakdown.blended).toBe('number')
@@ -184,14 +191,17 @@ describe('scoring calibration: relative ranking', () => {
     { name: 'equal (0.5/0.5)', weights: { cosine: 0.5, keyword: 0.5 } },
   ]
 
-  it.each(weightConfigs)('ranks checkout above search for "buy now" with $name', ({ weights }) => {
-    const im = createIntentMap({
-      intents: calibrationIntents,
-      ...(weights ? { weights } : {}),
-    })
-    const result = im.match('buy now')
-    expect(result.scores.checkout).toBeGreaterThan(result.scores.search)
-  })
+  it.each(weightConfigs)(
+    'ranks checkout above search for "buy now" with $name',
+    ({ weights }) => {
+      const im = createIntentMap({
+        intents: calibrationIntents,
+        ...(weights ? { weights } : {}),
+      })
+      const result = im.match('buy now')
+      expect(result.scores.checkout).toBeGreaterThan(result.scores.search)
+    }
+  )
 })
 
 describe('scoring calibration: threshold boundaries', () => {

@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
-import { fireEvent, render, renderHook, screen, act } from '@testing-library/react'
+import { act, fireEvent, render, renderHook, screen } from '@testing-library/react'
 import React from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { useIntentBind, useIntent, useIntentMap } from '../src/adapters/react.js'
+import { useIntent, useIntentBind, useIntentMap } from '../src/adapters/react.js'
 import { createIntentMap, defineIntent } from '../src/index.js'
 import type { IntentMapInstance } from '../src/types.js'
 
@@ -82,8 +82,7 @@ describe('useIntent', () => {
     const firstHandler = vi.fn()
     const secondHandler = vi.fn()
     hookResult = renderHook(
-      ({ handler }: { handler: typeof firstHandler }) =>
-        useIntent(im, 'greet', handler),
+      ({ handler }: { handler: typeof firstHandler }) => useIntent(im, 'greet', handler),
       { initialProps: { handler: firstHandler } }
     )
 
@@ -112,7 +111,9 @@ describe('useIntent', () => {
 
 function BindTestComponent({ im }: { im: IntentMapInstance }) {
   const { ref, lastMatch } = useIntentBind(im)
-  return React.createElement('div', null,
+  return React.createElement(
+    'div',
+    null,
     React.createElement('input', { ref, 'data-testid': 'input' }),
     React.createElement('span', { 'data-testid': 'result' }, lastMatch?.intent ?? 'none')
   )

@@ -5,7 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/intentmap)](https://www.npmjs.com/package/intentmap)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/intentmap)](https://bundlephobia.com/package/intentmap)
 [![license](https://img.shields.io/npm/l/intentmap)](LICENSE)
-[![CI](https://github.com/yourusername/intentmap/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/intentmap/actions)
+[![CI](https://github.com/prajwalgowdahg/IntentMap/actions/workflows/ci.yml/badge.svg)](https://github.com/prajwalgowdahg/IntentMap/actions/workflows/ci.yml)
 
 **intentmap** sits between your event handlers and business logic. You define intents with example phrases — intentmap matches incoming text to them in real-time using local vector similarity. No API keys. No network calls. No cold starts.
 
@@ -61,12 +61,12 @@ const result = im.match('I want to complete my purchase')
 // { matched: true, intent: 'checkout', confidence: 0.82, scores: {...} }
 
 // Event-driven
-im.on('checkout', (result) => router.push('/checkout'))
-im.on('cancel',   (result) => router.back())
-im.on('*',        (result) => console.log('any match:', result.intent))
+im.on('checkout', (result) => console.log('checkout:', result.confidence))
+im.on('cancel', (result) => console.log('cancel:', result.confidence))
+im.on('*', (result) => console.log('any match:', result.intent))
 
 // Emit manually
-im.emit(im.match(userInput))
+im.emit(im.match('never mind'))
 ```
 
 ---
@@ -178,6 +178,7 @@ Unbind all DOM listeners, clear all handlers and intents. Call on component unmo
 ## React
 
 ```typescript
+import { defineIntent } from 'intentmap'
 import { useIntentMap, useIntent } from 'intentmap/react'
 
 function SearchBar() {
@@ -188,8 +189,8 @@ function SearchBar() {
     },
   })
 
-  useIntent(im, 'search',   (result) => console.log('searching!', result.confidence))
-  useIntent(im, 'checkout', (result) => router.push('/checkout'))
+  useIntent(im, 'search', (result) => console.log('searching!', result.confidence))
+  useIntent(im, 'checkout', (result) => console.log('checkout!', result.confidence))
 
   return (
     <input

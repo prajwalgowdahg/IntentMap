@@ -17,7 +17,7 @@ export default defineConfig({
     js: `/**
  * intentmap v0.1.0
  * Map UI events to semantic intents — locally, offline, zero deps
- * https://github.com/yourusername/intentmap
+ * https://github.com/prajwalgowdahg/IntentMap
  * @license MIT
  */`,
   },

@@ -3,7 +3,12 @@ import { createIntentMap, defineIntent } from '../src/index.js'
 
 const config = {
   intents: {
-    checkout: defineIntent(['buy now', 'proceed to checkout', 'place order', 'add to cart']),
+    checkout: defineIntent([
+      'buy now',
+      'proceed to checkout',
+      'place order',
+      'add to cart',
+    ]),
     search: defineIntent(['search for', 'find product', 'look up', 'show me results']),
     cancel: defineIntent(['cancel order', 'stop this', 'abort', 'nevermind']),
     support: defineIntent(['help me', 'contact support', 'report issue']),
@@ -35,7 +40,7 @@ describe('edge cases: input boundaries', () => {
 
   it('handles very long input at 9999 chars boundary', () => {
     const im = createIntentMap(config)
-    const longInput = 'buy ' + 'x'.repeat(9995)
+    const longInput = `buy ${'x'.repeat(9995)}`
     const result = im.match(longInput)
     expect(result).toBeDefined()
     expect(result.input).toBe(longInput)
@@ -91,7 +96,13 @@ describe('edge cases: post-destroy behavior', () => {
     const im = createIntentMap(config)
     im.destroy()
     expect(() =>
-      im.emit({ matched: true, intent: 'checkout', confidence: 0.9, scores: {}, input: 'buy' })
+      im.emit({
+        matched: true,
+        intent: 'checkout',
+        confidence: 0.9,
+        scores: {},
+        input: 'buy',
+      })
     ).toThrow(/called after destroy/)
   })
 
@@ -120,7 +131,9 @@ describe('edge cases: concurrent operations', () => {
 
   it('addIntent then match immediately in same tick', () => {
     const im = createIntentMap(config)
-    im.addIntent('returns', { patterns: ['return item', 'get a refund', 'exchange this'] })
+    im.addIntent('returns', {
+      patterns: ['return item', 'get a refund', 'exchange this'],
+    })
     const result = im.match('return item')
     expect(result).toBeDefined()
     expect(result.intent).toBe('returns')
