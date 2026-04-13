@@ -23,6 +23,10 @@ export class IntentMap implements IntentMapInstance {
     }
   }
 
+  get isAlive(): boolean {
+    return !this.destroyed
+  }
+
   constructor(config: IntentConfig) {
     this.matcher = new Matcher({
       defaultThreshold: config.defaultThreshold ?? 0.25,

@@ -38,6 +38,7 @@ export interface IntentMapInstance {
   train(intent: string, examples: string[]): void
   getIntents(): string[]
   destroy(): void
+  readonly isAlive: boolean
 }
 
 export interface BindOptions {
