@@ -64,9 +64,9 @@
 
 ### Test Coverage
 
-- [ ] **TST-01**: React hook tests with `@testing-library/react` or `renderHook` for all three hooks
+- [x] **TST-01**: React hook tests with `@testing-library/react` or `renderHook` for all three hooks
 - [x] **TST-02**: DOM binding tests using jsdom for `bind()`, text extraction, cleanup, and debounce
-- [ ] **TST-03**: `stem()` unit tests covering known edge cases (caring, hoped, running, buses, etc.)
+- [x] **TST-03**: `stem()` unit tests covering known edge cases (caring, hoped, running, buses, etc.)
 - [x] **TST-04**: Edge case tests: empty string, very long input, Unicode/emoji, post-destroy calls, concurrent train/match
 - [x] **TST-05**: Scoring calibration tests verifying confidence ranges and threshold boundaries
 - [x] **TST-06**: All existing 26 tests continue to pass after refactor
@@ -140,9 +140,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | SCR-02 | Phase 5 | Complete |
 | SCR-03 | Phase 5 | Complete |
 | SCR-04 | Phase 5 | Complete |
-| TST-01 | Phase 6 | Pending |
+| TST-01 | Phase 6 | Complete |
 | TST-02 | Phase 6 | Complete |
-| TST-03 | Phase 6 | Pending |
+| TST-03 | Phase 6 | Complete |
 | TST-04 | Phase 6 | Complete |
 | TST-05 | Phase 6 | Complete |
 | TST-06 | Phase 6 | Complete |

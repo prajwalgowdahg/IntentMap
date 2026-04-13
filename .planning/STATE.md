@@ -4,8 +4,8 @@ milestone: v0.1
 milestone_name: milestone
 current_plan: 2 of 2 complete
 status: completed
-stopped_at: Phase 6 complete (all plans executed)
-last_updated: "2026-04-13T14:02:19Z"
+stopped_at: Completed 06-01-PLAN.md
+last_updated: "2026-04-13T14:15:22.915Z"
 last_activity: 2026-04-13 -- Phase 6 complete (edge cases, scoring calibration, DOM binding tests)
 progress:
   total_phases: 6
@@ -62,6 +62,7 @@ Progress: [██████████] 100%
 | Phase 05 P02 | 5min | 2 tasks | 4 files |
 | Phase 06 P01 | 7min | 2 tasks | 4 files |
 | Phase 06 P02 | 7min | 2 tasks | 3 files |
+| Phase 06 P01 | 9min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -98,6 +99,8 @@ Recent decisions affecting current work:
 - [05-02]: Matcher resolves stemmer at construction time, stores as non-optional field defaulting to stem()
 - [06-02]: Used relative score comparisons for all calibration assertions per locked decision
 - [06-02]: Per-intent threshold test verifies behavioral outcome rather than score magnitude
+- [Phase 06]: useIntent tests use createIntentMap directly to avoid React cleanup-order crash (off() on destroyed instance)
+- [Phase 06]: stem() boundary words at exact threshold lengths are not stripped because guards use strict > not >=
 
 ### Pending Todos
 
@@ -109,6 +112,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-13T14:02:19Z
-Stopped at: All phases complete
-Resume file: .planning/phases/06-test-coverage/06-02-SUMMARY.md
+Last session: 2026-04-13T14:08:38.084Z
+Stopped at: Completed 06-01-PLAN.md
+Resume file: None
