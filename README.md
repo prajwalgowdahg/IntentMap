@@ -60,6 +60,11 @@ const im = createIntentMap({
 const result = im.match('I want to complete my purchase')
 // { matched: true, intent: 'checkout', confidence: 0.82, scores: {...} }
 
+// Ranked alternatives + explain mode
+const ranked = im.matchTopK('buy something now', { limit: 3, explain: true })
+// ranked.alternatives -> top 3 intents
+// ranked.explanation -> matchedPattern, keywordHits, topSignals
+
 // Event-driven
 im.on('checkout', (result) => console.log('checkout:', result.confidence))
 im.on('cancel', (result) => console.log('cancel:', result.confidence))
@@ -97,7 +102,7 @@ defineIntent(
 )
 ```
 
-### `im.match(input)`
+### `im.match(input, options?)`
 
 Synchronously scores `input` against all intents.
 
@@ -109,6 +114,37 @@ const result: MatchResult = im.match('look up sneakers')
 //   confidence: 0.76,
 //   scores:     { search: 0.76, checkout: 0.02, cancel: 0.01 },
 //   input:      'look up sneakers'
+// }
+```
+
+Enable explanation metadata when you need to debug or inspect why a result won:
+
+```typescript
+const explained = im.match('buy now', { explain: true })
+// {
+//   intent: 'checkout',
+//   explanation: {
+//     matchedPattern: 'buy now',
+//     keywordHits: ['buy', 'now'],
+//     topSignals: ['keyword overlap', 'cosine similarity', 'threshold pass']
+//   }
+// }
+```
+
+### `im.matchTopK(input, options?)`
+
+Returns the normal top result plus ranked alternatives.
+
+```typescript
+const ranked = im.matchTopK('buy something now', { limit: 3 })
+// {
+//   intent: 'checkout',
+//   confidence: 0.71,
+//   alternatives: [
+//     { intent: 'checkout', confidence: 0.71, threshold: 0.25, matched: true },
+//     { intent: 'search', confidence: 0.22, threshold: 0.25, matched: false },
+//     { intent: 'cancel', confidence: 0.08, threshold: 0.35, matched: false }
+//   ]
 // }
 ```
 

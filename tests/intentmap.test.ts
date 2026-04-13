@@ -41,6 +41,7 @@ describe('createIntentMap', () => {
     const im = createIntentMap(config)
     expect(im).toBeDefined()
     expect(typeof im.match).toBe('function')
+    expect(typeof im.matchTopK).toBe('function')
     expect(typeof im.on).toBe('function')
     expect(typeof im.bind).toBe('function')
   })
@@ -102,6 +103,32 @@ describe('IntentMap.match()', () => {
     const checkoutScore = result.scores.checkout ?? 0
     const searchScore = result.scores.search ?? 0
     expect(checkoutScore).toBeGreaterThan(searchScore)
+  })
+
+  it('supports explain mode without changing the primary winner', () => {
+    const plain = im.match('add to cart')
+    const explained = im.match('add to cart', { explain: true })
+    expect(explained.intent).toBe(plain.intent)
+    expect(explained.confidence).toBe(plain.confidence)
+    expect(explained.explanation).toBeDefined()
+  })
+})
+
+describe('IntentMap.matchTopK()', () => {
+  let im: ReturnType<typeof createIntentMap>
+
+  beforeEach(() => {
+    im = createIntentMap(config)
+  })
+
+  it('returns ranked alternatives while keeping the top winner consistent', () => {
+    const single = im.match('buy now')
+    const ranked = im.matchTopK('buy now')
+
+    expect(ranked.intent).toBe(single.intent)
+    expect(ranked.confidence).toBe(single.confidence)
+    expect(ranked.alternatives).toBeDefined()
+    expect(ranked.alternatives?.[0]?.intent).toBe(single.intent)
   })
 })
 

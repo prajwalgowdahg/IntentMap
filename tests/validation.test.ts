@@ -112,6 +112,28 @@ describe('match() input validation', () => {
     expect(() => im.match(null as unknown as string)).toThrow(TypeError)
     expect(() => im.match(null as unknown as string)).toThrow(/got null/)
   })
+
+  it('matchTopK() throws TypeError for number input', () => {
+    const im = createIntentMap(config)
+    expect(() => im.matchTopK(42 as unknown as string)).toThrow(TypeError)
+    expect(() => im.matchTopK(42 as unknown as string)).toThrow(
+      /\[intentmap\] matchTopK\(\) expected a string, got number/
+    )
+  })
+
+  it('throws TypeError when match options are not an object', () => {
+    const im = createIntentMap(config)
+    expect(() =>
+      im.match('buy now', 'bad' as unknown as Record<string, unknown>)
+    ).toThrow(TypeError)
+  })
+
+  it('throws TypeError when matchTopK limit is not a number', () => {
+    const im = createIntentMap(config)
+    expect(() => im.matchTopK('buy now', { limit: 'bad' as unknown as number })).toThrow(
+      TypeError
+    )
+  })
 })
 
 describe('match() max length', () => {
@@ -131,6 +153,15 @@ describe('match() max length', () => {
     expect(result).toBeDefined()
     expect(result.input).toBe(boundaryInput)
     expect(typeof result.matched).toBe('boolean')
+  })
+
+  it('matchTopK() returns no-match with empty alternatives for string > 10000 chars', () => {
+    const im = createIntentMap(config)
+    const longInput = 'a'.repeat(10_001)
+    const result = im.matchTopK(longInput)
+    expect(result.matched).toBe(false)
+    expect(result.intent).toBeNull()
+    expect(result.alternatives).toEqual([])
   })
 })
 
@@ -210,6 +241,13 @@ describe('destroy-state guards', () => {
     im.destroy()
     expect(() => im.match('test')).toThrow(Error)
     expect(() => im.match('test')).toThrow(/called after destroy/)
+  })
+
+  it('matchTopK() throws Error after destroy()', () => {
+    const im = createIntentMap(config)
+    im.destroy()
+    expect(() => im.matchTopK('test')).toThrow(Error)
+    expect(() => im.matchTopK('test')).toThrow(/called after destroy/)
   })
 
   it('on() throws Error after destroy()', () => {

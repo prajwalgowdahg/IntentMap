@@ -5,7 +5,9 @@ import type {
   IntentDefinition,
   IntentHandler,
   IntentMapInstance,
+  MatchOptions,
   MatchResult,
+  MatchTopKOptions,
 } from './types.js'
 
 export class IntentMap implements IntentMapInstance {
@@ -44,17 +46,71 @@ export class IntentMap implements IntentMapInstance {
     }
   }
 
-  match(input: string): MatchResult {
-    this.guardNotDestroyed('match')
+  private createNoMatchResult(input: string, includeAlternatives = false): MatchResult {
+    return {
+      matched: false,
+      intent: null,
+      confidence: 0,
+      scores: {},
+      input,
+      ...(includeAlternatives ? { alternatives: [] } : {}),
+    }
+  }
+
+  private validateMatchInput(methodName: 'match' | 'matchTopK', input: string): void {
     if (typeof input !== 'string') {
       throw new TypeError(
-        `[intentmap] match() expected a string, got ${input === null ? 'null' : typeof input}`
+        `[intentmap] ${methodName}() expected a string, got ${input === null ? 'null' : typeof input}`
       )
     }
-    if (input.length > 10_000) {
-      return { matched: false, intent: null, confidence: 0, scores: {}, input }
+  }
+
+  private validateMatchOptions(
+    options: MatchOptions | MatchTopKOptions | undefined
+  ): void {
+    if (options !== undefined && (typeof options !== 'object' || options === null)) {
+      throw new TypeError(
+        `[intentmap] match options must be an object, got ${options === null ? 'null' : typeof options}`
+      )
     }
-    return this.matcher.match(input)
+
+    const matchOptions = options as MatchTopKOptions | undefined
+    if (
+      matchOptions?.explain !== undefined &&
+      typeof matchOptions.explain !== 'boolean'
+    ) {
+      throw new TypeError(
+        `[intentmap] match options.explain must be a boolean, got ${typeof matchOptions.explain}`
+      )
+    }
+    if (
+      matchOptions?.limit !== undefined &&
+      (typeof matchOptions.limit !== 'number' || Number.isNaN(matchOptions.limit))
+    ) {
+      throw new TypeError(
+        `[intentmap] match options.limit must be a number, got ${typeof matchOptions.limit}`
+      )
+    }
+  }
+
+  match(input: string, options: MatchOptions = {}): MatchResult {
+    this.guardNotDestroyed('match')
+    this.validateMatchInput('match', input)
+    this.validateMatchOptions(options)
+    if (input.length > 10_000) {
+      return this.createNoMatchResult(input)
+    }
+    return this.matcher.match(input, options)
+  }
+
+  matchTopK(input: string, options: MatchTopKOptions = {}): MatchResult {
+    this.guardNotDestroyed('matchTopK')
+    this.validateMatchInput('matchTopK', input)
+    this.validateMatchOptions(options)
+    if (input.length > 10_000) {
+      return this.createNoMatchResult(input, true)
+    }
+    return this.matcher.matchTopK(input, options)
   }
 
   emit(result: MatchResult, event?: Event): void {
