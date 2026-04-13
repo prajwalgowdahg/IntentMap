@@ -5,3 +5,6 @@ coverage/
 *.log
 *.tgz
 .DS_Store
+.planning/
+.claude/
+.changeset/
