@@ -46,12 +46,11 @@ Plans:
   3. Calling `createIntentMap()` with an invalid config object throws a descriptive `TypeError`
   4. Calling `match()` with non-string input, or calling any public method after `destroy()`, throws a descriptive error
   5. `match()` silently returns no-match for input exceeding 10,000 characters instead of crashing
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
-- [ ] 02-03: TBD
+- [ ] 02-01-PLAN.md — Add LICENSE, patch .gitignore, and update package.json metadata (PKG-01 through PKG-05)
+- [ ] 02-02-PLAN.md — Add input validation to all public methods with comprehensive tests (VAL-01 through VAL-08)
 
 ### Phase 3: Engine & DOM Fixes
 **Goal**: The matching engine and DOM binding behave correctly with no known bugs, and bind() supports debounce
@@ -127,7 +126,7 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Build Pipeline | 1/1 | Complete | 2026-04-13 |
-| 2. Package & Validation | 0/? | Not started | - |
+| 2. Package & Validation | 0/2 | Not started | - |
 | 3. Engine & DOM Fixes | 0/? | Not started | - |
 | 4. React Adapter | 0/? | Not started | - |
 | 5. Scoring Configuration | 0/? | Not started | - |
