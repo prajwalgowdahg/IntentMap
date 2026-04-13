@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: Package & Validation** - Add package infrastructure and input validation on all public API methods
 - [x] **Phase 3: Engine & DOM Fixes** - Fix known bugs in matcher, DOM binding, and add debounce support (completed 2026-04-13)
 - [x] **Phase 4: React Adapter** - Harden React hooks with stale closure fixes and proper cleanup (completed 2026-04-13)
-- [ ] **Phase 5: Scoring Configuration** - Make scoring weights configurable and add debug mode
+- [x] **Phase 5: Scoring Configuration** - Make scoring weights configurable and add debug mode (completed 2026-04-13)
 - [ ] **Phase 6: Test Coverage** - Comprehensive tests for React hooks, DOM binding, edge cases, and scoring calibration
 
 ## Phase Details
@@ -107,13 +107,12 @@ Plans:
   3. Stemmer unit tests cover known edge cases (caring, hoped, running, buses, etc.)
   4. Edge case tests cover empty string, very long input, Unicode/emoji, post-destroy calls, and concurrent train/match
   5. Scoring calibration tests verify confidence ranges and threshold boundaries
-  6. All original 26 tests continue to pass after all changes
-**Plans**: TBD
+  6. All existing tests continue to pass after all changes
+**Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
-- [ ] 06-03: TBD
+- [ ] 06-01-PLAN.md — Install React testing deps, create React hook tests (TST-01), expand stemmer edge case tests (TST-03)
+- [ ] 06-02-PLAN.md — Create edge case tests (TST-04), expand scoring calibration tests (TST-05), expand DOM binding text extraction tests (TST-02)
 
 ## Progress
 
@@ -127,5 +126,5 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 | 2. Package & Validation | 2/2 | Complete | 2026-04-13 |
 | 3. Engine & DOM Fixes | 1/2 | Complete    | 2026-04-13 |
 | 4. React Adapter | 1/1 | Complete    | 2026-04-13 |
-| 5. Scoring Configuration | 0/2 | Not started | - |
-| 6. Test Coverage | 0/? | Not started | - |
+| 5. Scoring Configuration | 0/2 | Complete    | 2026-04-13 |
+| 6. Test Coverage | 0/2 | Not started | - |
