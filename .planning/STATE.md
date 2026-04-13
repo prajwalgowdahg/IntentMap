@@ -2,16 +2,17 @@
 gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: milestone
-status: in-progress
-stopped_at: 03-01-PLAN.md complete
-last_updated: "2026-04-13T08:48:57Z"
-last_activity: 2026-04-13 -- Phase 3 plan 01 complete (engine bug fixes)
+current_plan: 2 of 2 complete
+status: completed
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-04-13T09:09:17Z"
+last_activity: 2026-04-13 -- Phase 3 complete (duplicate bind fix, debounce, removeIntent cleanup)
 progress:
   total_phases: 6
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 5
-  completed_plans: 4
-  percent: 80
+  completed_plans: 5
+  percent: 100
 ---
 
 # Project State
@@ -21,23 +22,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** `match(input)` returns a reliable, confidence-scored intent -- fast, offline, zero deps.
-**Current focus:** Phase 3 in progress (engine and DOM fixes)
+**Current focus:** Phase 3 complete (engine and DOM fixes). Phase 4 next.
 
 ## Current Position
 
-Phase: 3 of 6 (Engine & DOM Fixes) -- IN PROGRESS
-Current Plan: 1 of 2 complete
-Status: Plan 03-01 complete, 03-02 next
-Last activity: 2026-04-13 -- Plan 03-01 complete (double tokenization fix, textContent priority, no-intent regression tests)
+Phase: 3 of 6 (Engine & DOM Fixes) -- COMPLETE
+Current Plan: 2 of 2 complete
+Status: Phase 3 complete, Phase 4 next
+Last activity: 2026-04-13 -- Phase 3 complete (duplicate bind fix, debounce, removeIntent cleanup)
 
-Progress: [========--] 80%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 7 min
-- Total execution time: 0.50 hours
+- Total plans completed: 5
+- Average duration: 8 min
+- Total execution time: 0.72 hours
 
 **By Phase:**
 
@@ -45,13 +46,14 @@ Progress: [========--] 80%
 |-------|-------|-------|----------|
 | 01-build-pipeline | 1 | 7 min | 7 min |
 | 02-package-validation | 2 | 16 min | 8 min |
-| 03-engine-dom-fixes | 1 | 7 min | 7 min |
+| 03-engine-dom-fixes | 2 | 20 min | 10 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (7 min), 02-01 (6 min), 02-02 (10 min), 03-01 (7 min)
+- Last 5 plans: 02-01 (6 min), 02-02 (10 min), 03-01 (7 min), 03-02 (13 min)
 - Trend: Steady
 
 | Phase 03 P01 | 7min | 3 tasks | 4 files |
+| Phase 03 P02 | 13min | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -74,6 +76,9 @@ Recent decisions affecting current work:
 - [03-01]: Used function overload on buildVector() for pre-computed stems instead of inlining vector building
 - [03-01]: textContent swap in extractText() is a one-line fix, no structural change needed
 - [03-01]: BUG-04 no-intent guard already works, locked with regression tests only
+- [03-02]: Stored unbind function per element in unbindFns Map for reference equality on duplicate bind
+- [03-02]: Debounce uses trailing-only semantics with per-element timer in debounceTimers Map
+- [03-02]: removeIntent cleanup verified correct (matcher.removeIntent + handlers.delete)
 
 ### Pending Todos
 
@@ -86,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-13T08:48:57Z
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-engine-dom-fixes/03-01-SUMMARY.md
+Last session: 2026-04-13T09:09:17Z
+Stopped at: Completed 03-02-PLAN.md
+Resume file: .planning/phases/03-engine-dom-fixes/03-02-SUMMARY.md

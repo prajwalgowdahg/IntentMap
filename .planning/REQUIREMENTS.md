@@ -36,17 +36,17 @@
 
 ### Bug Fixes
 
-- [ ] **BUG-01**: Duplicate DOM event listeners prevented when `bind()` called multiple times on same element
+- [x] **BUG-01**: Duplicate DOM event listeners prevented when `bind()` called multiple times on same element
 - [x] **BUG-02**: `extractText()` prefers `textContent` over `innerText` to avoid layout reflow
 - [x] **BUG-03**: Tokenization computed once per `match()` call instead of twice
 - [x] **BUG-04**: `sorted[0]` edge case in matcher handled when no intents registered (return no-match cleanly)
-- [ ] **BUG-05**: `removeIntent()` also cleans up associated handlers, DOM bindings, and vector store entries
+- [x] **BUG-05**: `removeIntent()` also cleans up associated handlers, DOM bindings, and vector store entries
 
 ### DOM Binding
 
-- [ ] **DOM-01**: `BindOptions` includes `debounce?: number` option
-- [ ] **DOM-02**: Debounce implemented with `setTimeout`/`clearTimeout`, cleaned up on unbind and destroy
-- [ ] **DOM-03**: Debounce timeout cleared when element is unbound or instance destroyed
+- [x] **DOM-01**: `BindOptions` includes `debounce?: number` option
+- [x] **DOM-02**: Debounce implemented with `setTimeout`/`clearTimeout`, cleaned up on unbind and destroy
+- [x] **DOM-03**: Debounce timeout cleared when element is unbound or instance destroyed
 
 ### React Adapter
 
@@ -124,14 +124,14 @@ Deferred to future release. Tracked but not in current roadmap.
 | VAL-06 | Phase 2 | Complete |
 | VAL-07 | Phase 2 | Complete |
 | VAL-08 | Phase 2 | Complete |
-| BUG-01 | Phase 3 | Pending |
+| BUG-01 | Phase 3 | Complete |
 | BUG-02 | Phase 3 | Complete |
 | BUG-03 | Phase 3 | Complete |
 | BUG-04 | Phase 3 | Complete |
-| BUG-05 | Phase 3 | Pending |
-| DOM-01 | Phase 3 | Pending |
-| DOM-02 | Phase 3 | Pending |
-| DOM-03 | Phase 3 | Pending |
+| BUG-05 | Phase 3 | Complete |
+| DOM-01 | Phase 3 | Complete |
+| DOM-02 | Phase 3 | Complete |
+| DOM-03 | Phase 3 | Complete |
 | RCT-01 | Phase 4 | Pending |
 | RCT-02 | Phase 4 | Pending |
 | RCT-03 | Phase 4 | Pending |
