@@ -4,14 +4,14 @@ milestone: v0.1
 milestone_name: milestone
 current_plan: 1 of 1 complete
 status: completed
-stopped_at: Phase 5 context gathered
-last_updated: "2026-04-13T12:36:03.351Z"
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-04-13T12:56:08.699Z"
 last_activity: 2026-04-13 -- Phase 4 complete (React hooks hardened with stale closure fix, isAlive guard)
 progress:
   total_phases: 6
   completed_phases: 4
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 8
+  completed_plans: 7
   percent: 100
 ---
 
@@ -56,6 +56,7 @@ Progress: [██████████] 100%
 | Phase 03 P01 | 7min | 3 tasks | 4 files |
 | Phase 03 P02 | 13min | 1 tasks | 3 files |
 | Phase 04 P01 | 3min | 2 tasks | 3 files |
+| Phase 05 P01 | 6min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,8 @@ Recent decisions affecting current work:
 - [04-01]: useIntentMap uses key ref comparison to detect key changes and re-create instance
 - [04-01]: useIntentBind stores unbind function in ref and calls it in useEffect cleanup
 - [04-01]: All hooks check im.isAlive before calling core methods; destroyed instances produce console.warn
+- [Phase 05]: normalizeWeights returns default 0.35/0.65 when weights undefined; single weight infers other, both normalize by sum
+- [Phase 05]: Matcher stores weights as instance fields replacing COSINE_WEIGHT/KEYWORD_WEIGHT constants
 
 ### Pending Todos
 
@@ -96,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-13T12:36:03.348Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-scoring-configuration/05-CONTEXT.md
+Last session: 2026-04-13T12:56:08.698Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None
