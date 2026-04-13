@@ -31,12 +31,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. `npm run lint` passes against `src/` and `tests/` directories
   4. `npm run test` passes with all 26 existing tests
   5. `import { createIntentMap } from 'intentmap'` and `import { useIntentMap } from 'intentmap/react'` both resolve from the built output
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md — Restructure files into src/, tests/, examples/ and verify full build pipeline
 
 ### Phase 2: Package & Validation
 **Goal**: The package has proper npm infrastructure and all public API methods reject invalid input with clear error messages
@@ -128,7 +126,7 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Build Pipeline | 0/? | Not started | - |
+| 1. Build Pipeline | 0/1 | Planned | - |
 | 2. Package & Validation | 0/? | Not started | - |
 | 3. Engine & DOM Fixes | 0/? | Not started | - |
 | 4. React Adapter | 0/? | Not started | - |
