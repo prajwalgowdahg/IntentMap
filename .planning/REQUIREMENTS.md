@@ -37,9 +37,9 @@
 ### Bug Fixes
 
 - [ ] **BUG-01**: Duplicate DOM event listeners prevented when `bind()` called multiple times on same element
-- [ ] **BUG-02**: `extractText()` prefers `textContent` over `innerText` to avoid layout reflow
-- [ ] **BUG-03**: Tokenization computed once per `match()` call instead of twice
-- [ ] **BUG-04**: `sorted[0]` edge case in matcher handled when no intents registered (return no-match cleanly)
+- [x] **BUG-02**: `extractText()` prefers `textContent` over `innerText` to avoid layout reflow
+- [x] **BUG-03**: Tokenization computed once per `match()` call instead of twice
+- [x] **BUG-04**: `sorted[0]` edge case in matcher handled when no intents registered (return no-match cleanly)
 - [ ] **BUG-05**: `removeIntent()` also cleans up associated handlers, DOM bindings, and vector store entries
 
 ### DOM Binding
@@ -125,9 +125,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | VAL-07 | Phase 2 | Complete |
 | VAL-08 | Phase 2 | Complete |
 | BUG-01 | Phase 3 | Pending |
-| BUG-02 | Phase 3 | Pending |
-| BUG-03 | Phase 3 | Pending |
-| BUG-04 | Phase 3 | Pending |
+| BUG-02 | Phase 3 | Complete |
+| BUG-03 | Phase 3 | Complete |
+| BUG-04 | Phase 3 | Complete |
 | BUG-05 | Phase 3 | Pending |
 | DOM-01 | Phase 3 | Pending |
 | DOM-02 | Phase 3 | Pending |

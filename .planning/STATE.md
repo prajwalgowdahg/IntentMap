@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: milestone
-status: completed
-stopped_at: Phase 3 context gathered
-last_updated: "2026-04-13T07:56:27.947Z"
-last_activity: 2026-04-13 -- Phase 2 complete (input validation and destroy-state guards)
+status: in-progress
+stopped_at: 03-01-PLAN.md complete
+last_updated: "2026-04-13T08:48:57Z"
+last_activity: 2026-04-13 -- Phase 3 plan 01 complete (engine bug fixes)
 progress:
   total_phases: 6
   completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
-  percent: 100
+  total_plans: 5
+  completed_plans: 4
+  percent: 80
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** `match(input)` returns a reliable, confidence-scored intent -- fast, offline, zero deps.
-**Current focus:** Phase 2 complete, ready for Phase 3
+**Current focus:** Phase 3 in progress (engine and DOM fixes)
 
 ## Current Position
 
-Phase: 2 of 6 (Package Validation) -- COMPLETE
-Plan: 2 of 2 complete
-Status: Phase complete, ready for transition
-Last activity: 2026-04-13 -- Phase 2 complete (input validation and destroy-state guards)
+Phase: 3 of 6 (Engine & DOM Fixes) -- IN PROGRESS
+Current Plan: 1 of 2 complete
+Status: Plan 03-01 complete, 03-02 next
+Last activity: 2026-04-13 -- Plan 03-01 complete (double tokenization fix, textContent priority, no-intent regression tests)
 
-Progress: [██████████] 100%
+Progress: [========--] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 8 min
-- Total execution time: 0.38 hours
+- Total plans completed: 4
+- Average duration: 7 min
+- Total execution time: 0.50 hours
 
 **By Phase:**
 
@@ -45,14 +45,13 @@ Progress: [██████████] 100%
 |-------|-------|-------|----------|
 | 01-build-pipeline | 1 | 7 min | 7 min |
 | 02-package-validation | 2 | 16 min | 8 min |
+| 03-engine-dom-fixes | 1 | 7 min | 7 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (7 min), 02-01 (6 min), 02-02 (10 min)
+- Last 5 plans: 01-01 (7 min), 02-01 (6 min), 02-02 (10 min), 03-01 (7 min)
 - Trend: Steady
 
-*Updated after each plan completion*
-| Phase 02 P02 | 10min | 1 tasks | 3 files |
-| Phase 02 P02 | 10min | 1 tasks | 3 files |
+| Phase 03 P01 | 7min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -72,6 +71,9 @@ Recent decisions affecting current work:
 - [02-02]: HTMLElement checked with typeof guard to support both node and browser test environments
 - [02-02]: addIntent() rejects empty string names via combined typeof + empty check
 - [02-02]: match() returns silent no-match for >10k chars instead of throwing
+- [03-01]: Used function overload on buildVector() for pre-computed stems instead of inlining vector building
+- [03-01]: textContent swap in extractText() is a one-line fix, no structural change needed
+- [03-01]: BUG-04 no-intent guard already works, locked with regression tests only
 
 ### Pending Todos
 
@@ -84,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-13T07:56:27.944Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-engine-dom-fixes/03-CONTEXT.md
+Last session: 2026-04-13T08:48:57Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: .planning/phases/03-engine-dom-fixes/03-01-SUMMARY.md

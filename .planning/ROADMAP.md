@@ -65,7 +65,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Fix double tokenization in matcher, textContent priority in extractText, verify no-intent edge case (BUG-02, BUG-03, BUG-04)
+- [x] 03-01-PLAN.md -- Fix double tokenization in matcher, textContent priority in extractText, verify no-intent edge case (BUG-02, BUG-03, BUG-04)
 - [ ] 03-02-PLAN.md — Fix duplicate bind, add debounce support, verify removeIntent cleanup (BUG-01, BUG-05, DOM-01, DOM-02, DOM-03)
 
 ### Phase 4: React Adapter
@@ -125,8 +125,8 @@ Note: Phase 4 and Phase 5 depend on Phase 3 but not on each other. They can exec
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Build Pipeline | 1/1 | Complete | 2026-04-13 |
-| 2. Package & Validation | 0/2 | Not started | - |
-| 3. Engine & DOM Fixes | 0/2 | Not started | - |
+| 2. Package & Validation | 2/2 | Complete | 2026-04-13 |
+| 3. Engine & DOM Fixes | 1/2 | In progress | - |
 | 4. React Adapter | 0/? | Not started | - |
 | 5. Scoring Configuration | 0/? | Not started | - |
 | 6. Test Coverage | 0/? | Not started | - |
