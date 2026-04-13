@@ -26,6 +26,27 @@ export interface IntentScoreBreakdown {
   aboveThreshold: boolean
 }
 
+export interface MatchOptions {
+  explain?: boolean
+}
+
+export interface MatchTopKOptions extends MatchOptions {
+  limit?: number
+}
+
+export interface RankedIntentMatch {
+  intent: string
+  confidence: number
+  threshold: number
+  matched: boolean
+}
+
+export interface MatchExplanation {
+  matchedPattern: string | null
+  keywordHits: string[]
+  topSignals: string[]
+}
+
 export interface MatchResult {
   matched: boolean
   intent: string | null
@@ -33,6 +54,8 @@ export interface MatchResult {
   scores: Record<string, number>
   input: string
   debug?: Record<string, IntentScoreBreakdown>
+  alternatives?: RankedIntentMatch[]
+  explanation?: MatchExplanation
 }
 
 export interface BoundEvent {
@@ -45,7 +68,8 @@ export interface BoundEvent {
 export type IntentHandler = (result: MatchResult, event?: Event) => void
 
 export interface IntentMapInstance {
-  match(input: string): MatchResult
+  match(input: string, options?: MatchOptions): MatchResult
+  matchTopK(input: string, options?: MatchTopKOptions): MatchResult
   on(intent: string, handler: IntentHandler): () => void
   off(intent: string, handler: IntentHandler): void
   bind(element: HTMLElement, options?: BindOptions): () => void

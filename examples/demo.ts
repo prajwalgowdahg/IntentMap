@@ -52,11 +52,23 @@ const inputs = [
 
 console.log('\n--- intentmap demo ---\n')
 for (const input of inputs) {
-  const result = im.match(input)
+  const result = im.matchTopK(input, { limit: 3, explain: true })
   console.log(`input:      "${input}"`)
   console.log(`intent:     ${result.intent ?? 'none'}`)
   console.log(`confidence: ${result.confidence.toFixed(3)}`)
   console.log(`matched:    ${result.matched}`)
+  if (result.alternatives) {
+    console.log(
+      `top 3:      ${result.alternatives
+        .map((entry) => `${entry.intent}:${entry.confidence.toFixed(3)}`)
+        .join(', ')}`
+    )
+  }
+  if (result.explanation) {
+    console.log(`pattern:    ${result.explanation.matchedPattern ?? 'none'}`)
+    console.log(`hits:       ${result.explanation.keywordHits.join(', ') || 'none'}`)
+    console.log(`signals:    ${result.explanation.topSignals.join(', ') || 'none'}`)
+  }
   console.log('---')
   im.emit(result)
 }

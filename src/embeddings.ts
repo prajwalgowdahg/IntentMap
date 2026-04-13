@@ -67,9 +67,32 @@ export function averageVectors(vectors: TokenVector[]): TokenVector {
   return combined
 }
 
-interface PatternEntry {
+export interface PatternEntry {
+  text: string
   vec: TokenVector
   stems: string[]
+}
+
+export interface PatternExplanation {
+  text: string
+  keywordHits: string[]
+  keywordScore: number
+  cosine: number
+}
+
+function uniqueKeywordHits(inputTokens: string[], patternTokens: string[]): string[] {
+  const patternSet = new Set(patternTokens)
+  const seen = new Set<string>()
+  const hits: string[] = []
+
+  for (const token of inputTokens) {
+    if (patternSet.has(token) && !seen.has(token)) {
+      seen.add(token)
+      hits.push(token)
+    }
+  }
+
+  return hits
 }
 
 export class VectorStore {
@@ -86,7 +109,7 @@ export class VectorStore {
     const stems = tokenize(text, caseSensitive).map(this.stemmerFn)
     const vec = buildVector(text, caseSensitive, stems)
     const existing = this.store.get(intent) ?? []
-    existing.push({ vec, stems })
+    existing.push({ text, vec, stems })
     this.store.set(intent, existing)
     this.averageCache.delete(intent)
     this.stemCache.delete(intent)
@@ -118,6 +141,46 @@ export class VectorStore {
       if (score > best) best = score
     }
     return best
+  }
+
+  getBestPatternMatch(
+    intent: string,
+    inputStems: string[],
+    inputVec: TokenVector
+  ): PatternExplanation | null {
+    const entries = this.store.get(intent) ?? []
+    let bestEntry: PatternEntry | null = null
+    let bestKeywordScore = -1
+    let bestCosine = -1
+    let bestHits: string[] = []
+
+    for (const entry of entries) {
+      const keywordScore = keywordOverlap(inputStems, entry.stems)
+      const cosine = cosineSimilarity(inputVec, entry.vec)
+      const keywordHits = uniqueKeywordHits(inputStems, entry.stems)
+
+      const shouldReplace =
+        keywordScore > bestKeywordScore ||
+        (keywordScore === bestKeywordScore && cosine > bestCosine)
+
+      if (shouldReplace) {
+        bestEntry = entry
+        bestKeywordScore = keywordScore
+        bestCosine = cosine
+        bestHits = keywordHits
+      }
+    }
+
+    if (bestEntry === null) {
+      return null
+    }
+
+    return {
+      text: bestEntry.text,
+      keywordHits: bestHits,
+      keywordScore: bestKeywordScore,
+      cosine: bestCosine,
+    }
   }
 
   getIntents(): string[] {

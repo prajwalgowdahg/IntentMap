@@ -1,6 +1,6 @@
 {
   "name": "intentmap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Map UI events and text to semantic user intents — locally, offline, with zero dependencies.",
   "author": "prajwalhg <prajwalgowda477@gmail.com>",
   "license": "MIT",

@@ -1,6 +1,28 @@
 import { VectorStore, buildVector, cosineSimilarity } from './embeddings.js'
 import { stem, tokenize } from './tokenizer.js'
-import type { IntentConfig, IntentScoreBreakdown, MatchResult } from './types.js'
+import type {
+  IntentScoreBreakdown,
+  MatchExplanation,
+  MatchOptions,
+  MatchResult,
+  MatchTopKOptions,
+  RankedIntentMatch,
+} from './types.js'
+
+interface RankedCandidate {
+  intent: string
+  confidence: number
+  threshold: number
+  matched: boolean
+  index: number
+}
+
+interface ScoredIntentSet {
+  scores: Record<string, number>
+  ranked: RankedCandidate[]
+  debug?: Record<string, IntentScoreBreakdown>
+  explanation?: MatchExplanation
+}
 
 export class Matcher {
   private store: VectorStore
@@ -42,22 +64,32 @@ export class Matcher {
     this.thresholds.delete(name)
   }
 
-  match(input: string): MatchResult {
+  private scoreIntents(input: string, options: MatchOptions = {}): ScoredIntentSet {
     const inputStems = tokenize(input, this.caseSensitive).map(this.stemmer)
     const inputVec = buildVector(input, this.caseSensitive, inputStems)
     const intents = this.store.getIntents()
     const scores: Record<string, number> = {}
+    const ranked: RankedCandidate[] = []
     const debugBreakdown: Record<string, IntentScoreBreakdown> = {}
 
-    for (const intent of intents) {
+    intents.forEach((intent, index) => {
       const avgVec = this.store.getAverage(intent)
       const cosine = cosineSimilarity(inputVec, avgVec)
       const keyword = this.store.bestKeywordScore(intent, inputStems)
       const blended = this.weights.cosine * cosine + this.weights.keyword * keyword
-      scores[intent] = Number.parseFloat(blended.toFixed(4))
+      const confidence = Number.parseFloat(blended.toFixed(4))
+      const threshold = this.thresholds.get(intent) ?? this.defaultThreshold
+
+      scores[intent] = confidence
+      ranked.push({
+        intent,
+        confidence,
+        threshold,
+        matched: blended > threshold,
+        index,
+      })
 
       if (this.debug) {
-        const threshold = this.thresholds.get(intent) ?? this.defaultThreshold
         debugBreakdown[intent] = {
           cosine,
           keyword,
@@ -66,33 +98,110 @@ export class Matcher {
           aboveThreshold: blended > threshold,
         }
       }
-    }
+    })
 
     if (this.debug) {
       console.debug('[intentmap] scores:', scores, 'for input:', input)
     }
 
-    const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1])
-    const [topIntent, topScore] = sorted[0] ?? [null, 0]
-    const threshold = topIntent
-      ? (this.thresholds.get(topIntent) ?? this.defaultThreshold)
-      : this.defaultThreshold
+    ranked.sort((a, b) => {
+      if (b.confidence !== a.confidence) {
+        return b.confidence - a.confidence
+      }
+      return a.index - b.index
+    })
 
-    const matched = topScore > threshold
+    const topCandidate = ranked[0]
+    let explanation: MatchExplanation | undefined
+
+    if (options.explain && topCandidate) {
+      const topPattern = this.store.getBestPatternMatch(
+        topCandidate.intent,
+        inputStems,
+        inputVec
+      )
+      if (topPattern) {
+        const topSignals: string[] = []
+        if (topPattern.keywordScore > 0) {
+          topSignals.push('keyword overlap')
+        }
+        if (topPattern.cosine > 0) {
+          topSignals.push('cosine similarity')
+        }
+        if (topCandidate.matched) {
+          topSignals.push('threshold pass')
+        }
+
+        explanation = {
+          matchedPattern: topPattern.text,
+          keywordHits: topPattern.keywordHits,
+          topSignals,
+        }
+      } else {
+        explanation = {
+          matchedPattern: null,
+          keywordHits: [],
+          topSignals: [],
+        }
+      }
+    }
+
+    return {
+      scores,
+      ranked,
+      ...(this.debug ? { debug: debugBreakdown } : {}),
+      ...(explanation ? { explanation } : {}),
+    }
+  }
+
+  private buildMatchResult(
+    input: string,
+    scored: ScoredIntentSet,
+    alternatives?: RankedIntentMatch[]
+  ): MatchResult {
+    const topCandidate = scored.ranked[0]
+    const topScore = topCandidate?.confidence ?? 0
+    const matched = topCandidate?.matched ?? false
 
     const result: MatchResult = {
       matched,
-      intent: matched ? topIntent : null,
+      intent: matched ? (topCandidate?.intent ?? null) : null,
       confidence: topScore,
-      scores,
+      scores: scored.scores,
       input,
     }
 
-    if (this.debug) {
-      result.debug = debugBreakdown
+    if (scored.debug) {
+      result.debug = scored.debug
+    }
+    if (scored.explanation) {
+      result.explanation = scored.explanation
+    }
+    if (alternatives) {
+      result.alternatives = alternatives
     }
 
     return result
+  }
+
+  match(input: string, options: MatchOptions = {}): MatchResult {
+    const scored = this.scoreIntents(input, options)
+    return this.buildMatchResult(input, scored)
+  }
+
+  matchTopK(input: string, options: MatchTopKOptions = {}): MatchResult {
+    const scored = this.scoreIntents(input, options)
+    const limit = options.limit === undefined ? 3 : Math.max(0, Math.floor(options.limit))
+    const alternatives: RankedIntentMatch[] = scored.ranked
+      .slice(0, limit)
+      .map((candidate) => ({
+        intent: candidate.intent,
+        confidence: candidate.confidence,
+        threshold: candidate.threshold,
+        matched: candidate.matched,
+      }))
+
+    return this.buildMatchResult(input, scored, alternatives)
   }
 
   getIntents(): string[] {
